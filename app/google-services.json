@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187667850094",
+    "project_id": "sync-health-e8b23",
+    "storage_bucket": "sync-health-e8b23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187667850094:android:2028185554448b6e6bd77f",
+        "android_client_info": {
+          "package_name": "com.app.synchealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187667850094-s9ov3nsr2g962bqb3l3iqiro4rr7p25m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEn63DRP7A9C5dz5ntoN_vfMLFtMMkyEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187667850094-s9ov3nsr2g962bqb3l3iqiro4rr7p25m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

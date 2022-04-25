@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@color/colorWhite"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_pc_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_heavy"
+                android:paddingLeft="30dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/txt_fname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_heavy"
+                android:paddingLeft="30dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/colorMaroon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="@dimen/d_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d_40"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/layout_chat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:src="@drawable/chatx" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_chat_msg_txt"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:layout_marginTop="5dp"
+                                android:src="@drawable/messgae" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_mail_msg_txt"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/d_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:src="@drawable/circle" />
+
+                    <TextView
+                        android:id="@+id/txt_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/colorBlack" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/btn_start_consult"
+                    android:layout_width="@dimen/d_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d_10"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/colorWhite"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:text="@string/shd_start_consult_btn_txt" />
+
+                <Button
+                    android:id="@+id/btn_cancel_consult"
+                    android:layout_width="@dimen/d_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d_5"
+                    android:layout_marginRight="@dimen/d_10"
+                    android:layout_weight="0.5"
+                    android:textColor="@color/colorWhite"
+                    android:backgroundTint="@color/colorMaroon"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:text="@string/shd_cancel_consult_btn_txt" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

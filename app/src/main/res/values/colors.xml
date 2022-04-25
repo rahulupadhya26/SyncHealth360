@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#013C66</color>
+    <color name="colorPrimaryDark">#00173b</color>
+    <color name="colorAccent">#013C66</color>
+    <color name="colorWhite">#FDFDFF</color>
+    <color name="colorButtonBlue">#003C69</color>
+    <color name="colorGray">#808080</color>
+    <color name="colorBlue">#0174DF</color>
+    <color name="colorBottomBar">#FFFFFF</color>
+    <color name="colorLightGrey">#EBEAEF</color>
+    <color name="colorLightBlue">#B3BDC8</color>
+    <color name="colorMaroon">#d81e3d</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorPink">#FF312D</color>
+    <color name="colorBlack">#000000</color>
+    <color name="color34Black">#54000000</color>
+    <color name="color40Black">#90FFFFFF</color>
+    <color name="colorStripBlue">#003A6E</color>
+    <color name="create_post_divider">#B1B3BF</color>
+    <color name="colorUnRead">#F5F4F9</color>
+    <color name="colorWhiteBorder">#D8D8D8</color>
+    <color name="colorHeavyGrey">#232A39</color>
+    <color name="colorSemiBlack">#151617</color>
+    <color name="colorCream">#778391</color>
+    <color name="colorArticleDescription">#272959</color>
+    <color name="colorThemeBlue">#003C6D</color>
+    <color name="colorBorderColor">#7D7D7F</color>
+</resources>

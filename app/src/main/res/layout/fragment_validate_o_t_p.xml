@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_background"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".fragments.ValidateOTPFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/img_background"
+        android:orientation="vertical"
+        tools:context=".fragments.ValidateOTPFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_recovery_success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/img_success"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/img_success"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_thanks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_heavy"
+                android:text="@string/txt_lbl_thank_you"
+                android:textColor="@color/colorWhite"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@id/img_success"
+                app:layout_constraintStart_toStartOf="@id/img_success"
+                app:layout_constraintTop_toBottomOf="@id/img_success" />
+
+            <TextView
+                android:id="@+id/txt_confirmation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:fontFamily="@font/avenir_medium"
+                android:gravity="center"
+                android:text="@string/txt_lbl_success_recovery"
+                android:textColor="@color/colorLightGrey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_thanks" />
+
+            <TextView
+                android:id="@+id/txt_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:fontFamily="@font/avenir_heavy"
+                android:gravity="center"
+                android:textColor="@color/colorLightGrey"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_confirmation" />
+
+            <TextView
+                android:id="@+id/btn_enter_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_background_white"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/avenir_heavy"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/txt_lbl_enter_otp"
+                android:textColor="@color/colorThemeBlue"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/txt_email" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_validate_pass_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="50dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/img_recovery_email_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:fontFamily="@font/avenir_heavy"
+                android:gravity="center"
+                android:text="@string/txt_lbl_enter_pass_code"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_box_white_top_corners"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.app.synchealth.view.OtpView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="50dp"
+                    android:focusable="true"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:inputType="number"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    app:hideLineWhenFilled="false"
+                    app:itemCount="4"
+                    app:itemSpacing="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lineColor="@color/colorPrimary"
+                    app:state_filled="true"
+                    app:viewType="rectangle" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="@font/avenir_medium"
+                    android:text="@string/txt_lbl_didNot"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/otp_view"
+                    app:layout_constraintTop_toBottomOf="@id/otp_view" />
+
+                <TextView
+                    android:id="@+id/txt_resend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/avenir_medium"
+                    android:text="@string/txt_lbl_resend"
+                    android:textColor="@color/colorThemeBlue"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/text"
+                    app:layout_constraintStart_toEndOf="@id/text" />
+
+                <Button
+                    android:id="@+id/btn_validate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/button_style_blue"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:padding="12dp"
+                    android:text="@string/txt_lbl_validate"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

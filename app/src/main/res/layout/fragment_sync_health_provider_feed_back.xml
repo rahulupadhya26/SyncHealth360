@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SyncHealthProviderFeedBack"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/logo"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rate your experience"
+            android:textSize="18dp"
+            android:fontFamily="@font/avenir_heavy"
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorBlack"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Are you satisfied with the service?"
+            android:textSize="12dp"
+            android:fontFamily="@font/avenir_heavy"
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorBlack"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar_provider_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tell us how can we improve"
+            android:fontFamily="@font/avenir_heavy"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"/>
+
+        <EditText
+            android:id="@+id/edit_txt_provider_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_rectangle_bg"
+            android:fontFamily="@font/avenir_heavy"
+            android:imeOptions="actionDone"
+            android:maxLength="65"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:gravity="top"
+            android:textColor="@color/colorBlack"
+            android:textSize="14dp"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/btn_provider_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/avenir_heavy"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/colorWhite"
+            android:text="Next" />
+
+    </LinearLayout>
+
+</FrameLayout>

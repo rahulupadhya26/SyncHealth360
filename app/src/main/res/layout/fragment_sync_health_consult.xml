@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".fragments.SyncHealthConsult">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_consult_next_step">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_heavy"
+                android:padding="5dp"
+                android:text="Whom do you want to consult?"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/multi_auto_complete_text_physician"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:completionThreshold="0"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:hint="Select Physician"
+                    android:padding="10dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack" />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_doctor_list"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_margin="5dp" />
+
+            <TextView
+                android:id="@+id/txt_doctor_not_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/avenir_heavy"
+                android:gravity="center"
+                android:maxLines="2"
+                android:padding="5dp"
+                android:text="Doctors not found for selected physician"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_heavy"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="----OR----"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/btn_previous_specialist_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/colorBlue"
+                android:textColor="@color/colorWhite"
+                android:text="Consult with previous specialist" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_heavy"
+                android:gravity="center"
+                android:text="This option works only if you had consulted previously through SyncHealth360"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_consult_next_step"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/avenir_heavy"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/colorWhite"
+        android:text="Next Step >>" />
+
+</RelativeLayout>

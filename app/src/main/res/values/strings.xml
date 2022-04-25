@@ -1,0 +1,164 @@
+<resources>
+    <string name="app_name">Sync Health</string>
+
+    <string name="txt_nav_menu_sync_health">Sync Health</string>
+    <string name="txt_nav_menu_logout">Logout</string>
+
+    <string name="txt_lbl_email">Username</string>
+    <string name="txt_lbl_password">Password</string>
+    <string name="txt_lbl_forgot_password"><u>Forgot Password</u></string>
+    <string name="txt_lbl_header_forgot_password">Forgot Password</string>
+    <string name="txt_lbl_login">Login</string>
+    <string name="txt_lbl_recovery_password">Enter the email address associated with your account.</string>
+    <string name="txt_lbl_recovery_email">We will email you a temporary passcode to reset your account</string>
+    <string name="txt_lbl_reset">Reset</string>
+    <string name="txt_lbl_success_recovery">Please check your email for your temporary pass code</string>
+    <string name="txt_lbl_thank_you">Thank You</string>
+    <string name="txt_lbl_enter_otp">Enter Otp</string>
+    <string name="txt_lbl_enter_pass_code">Please enter temporary pass code to reset your password</string>
+    <string name="txt_lbl_validate">Validate</string>
+    <string name="txt_lbl_resend"><u>Send Pass code again.</u></string>
+    <string name="txt_lbl_didNot">Didn\'t get code yet?</string>
+    <string name="txt_lbl_new_password_txt">Please enter your new password</string>
+    <string name="txt_lbl_new_password">New Password</string>
+    <string name="txt_lbl_confirm_password">Confirm Password</string>
+    <string name="txt_lbl_submit">Submit</string>
+    <string name="txt_lbl_reset_password">Reset Password</string>
+    <string name="shd_wishes_txt">"Your target for today is positive mindset and smile to everyone"</string>
+    <string name="shd_view_profile_btn_txt">View Your Profile</string>
+    <string name="shd_today_consult_txt">Today\'s Consultation</string>
+    <string name="shd_no_appoint_txt">No Appointment For Today</string>
+    <string name="shd_chat_msg_txt">Chat with the Therpist/Physician</string>
+    <string name="shd_mail_msg_txt">Email with the Therpist/Physician</string>
+    <string name="shd_start_consult_btn_txt">Start Consultation</string>
+    <string name="shd_cancel_consult_btn_txt">Cancel Consultation</string>
+    <string name="shd_articles_txt">Articles</string>
+    <string name="shd_pharmacy_txt">Pharmacy</string>
+    <string name="shd_vitals_txt">Vitals</string>
+    <string name="shd_health_info_txt">Health Info</string>
+    <string name="shd_perscription_txt">Perscription</string>
+    <string name="shd_previous_consulation_txt">Previous Consultation</string>
+    <string name="shd_view_all_btn_txt">View All</string>
+    <string name="shd_physician_task_txt">Attending physician</string>
+    <string name="shd_doctor_name_txt">Dr. Ananya H</string>
+    <string name="shd_book_now_btn_txt">Book Now</string>
+    <string name="shd_create_appointment_txt">Click on \'+\' button to create an appointment</string>
+    <string name="txt_nav_menu_video_call">Video Call</string>
+    <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
+    <string name="txt_nav_menu_sync_health_provider_feedback">Provider feedback form</string>
+    <string name="txt_nav_menu_sync_health_rate_visit">Rate your visit</string>
+    <string name="txt_nav_menu_sync_health_articles">Health Articles</string>
+    <string name="txt_nav_menu_sync_health_consult">Select Physician</string>
+    <string name="txt_nav_menu_sync_choose_provider">Choose Provider</string>
+    <string name="txt_nav_menu_sync_health_provider">Choose Your Provider</string>
+    <string name="txt_nav_menu_sync_health_schedule">Schedule Appointment</string>
+    <string name="txt_nav_menu_sync_health_choose_pharmacy">Choose Pharmacy</string>
+    <string name="txt_nav_menu_sync_health_medication">Select Allergies</string>
+    <string name="txt_nav_menu_sync_health_final_review">Final Review</string>
+    <string name="txt_nav_menu_sync_health_payment">Choose payment method</string>
+    <string name="txt_nav_menu_sync_health_consent_letter">Consent Letter</string>
+    <string name="txt_nav_menu_sync_health_payment_confirm">Payment Confirmation</string>
+    <string name="txt_nav_menu_sync_health_profile">Profile</string>
+    <string name="txt_nav_menu_sync_prev_consult">Appointments</string>
+    <string name="txt_nav_menu_sync_health_vitals">Vitals Details</string>
+    <string name="txt_nav_menu_sync_health_prescription">Prescription</string>
+    <string name="txt_nav_menu_sync_health_info">Health Info</string>
+    <string name="settings">Settings</string>
+    <string name="txt_nav_menu_sync_health_create_appoint_basic_info">Some Basic Info</string>
+
+    <string name="txt_lbl_get_started">Get Started</string>
+    <string name="txt_hint_search">Enter text to search</string>
+    <string name="txt_hint_question_comments">Please share your comments</string>
+    <string name="txt_lbl_zero">0</string>
+    <string name="txt_lbl_ten">10</string>
+
+    <string name="codec_title">Set your preferred audio and video codec. Not all codecs are supported with Group rooms. The media server will fallback to OPUS or VP8 if a preferred codec is not supported.</string>
+    <string name="pref_title_audio_codec">Audio Codec</string>
+    <string name="pref_title_video_codec">Video Codec</string>
+    <string name="sender_bandwidth_constraints">Set sender bandwidth constraints. Zero represents the WebRTC default value which varies by codec.</string>
+    <string name="max_audio_bitrate">Max Audio Bitrate (bits per second)</string>
+    <string name="max_video_bitrate">Max Video Bitrate (bits per second)</string>
+    <string name="vp8_simulcast">VP8 Simulcast</string>
+    <string name="txt_lbl_delete">Delete</string>
+    <string name="audio_device">Audio Device</string>
+    <string name="txt_share_status">Share Status</string>
+    <string name="txt_reset_status">Reset Status</string>
+    <string name="txt_change_image">Change Image</string>
+    <string name="txt_change_status">Change Status</string>
+    <string name="txt_menu_home">Home</string>
+    <string name="txt_menu_explore">Explore</string>
+    <string name="txt_menu_discussion">Discussion</string>
+    <string name="txt_menu_health_info">My Health</string>
+
+    <string-array name="symptoms_array">
+        <item>Headache</item>
+        <item>Running nose</item>
+        <item>Fatigue</item>
+        <item>Fever</item>
+        <item>Difficulty Breathing</item>
+        <item>Sore Throat</item>
+        <item>Aches</item>
+        <item>Back Pain</item>
+        <item>Loss of appetite</item>
+    </string-array>
+
+    <string-array name="physician_array">
+        <item>Attending physician</item>
+        <item>Audiological physician</item>
+        <item>Chest physician</item>
+        <item>Community health physician</item>
+        <item>Consultant physician</item>
+        <item>General physician</item>
+        <item>Genitourinary physician</item>
+        <item>Occupational physician</item>
+        <item>Palliative care physician</item>
+        <item>Physician</item>
+        <item>Public health physician</item>
+        <item>Rehabilitation physician</item>
+        <item>Resident physician</item>
+        <item>Specialized physician</item>
+        <item>Thoracic physician</item>
+    </string-array>
+
+    <string-array name="time_slots">
+        <item>08:00 - 08:30</item>
+        <item>08:30 - 09:00</item>
+        <item>09:00 - 09:30</item>
+        <item>09:30 - 10:00</item>
+        <item>10:00 - 10:30</item>
+        <item>10:30 - 11:00</item>
+        <item>11:00 - 11:30</item>
+        <item>11:30 - 12:00</item>
+        <item>14:00 - 14:30</item>
+        <item>14:30 - 15:00</item>
+        <item>15:00 - 15:30</item>
+        <item>15:30 - 16:00</item>
+        <item>16:00 - 16:30</item>
+        <item>16:30 - 17:00</item>
+    </string-array>
+
+    <string-array name="allergies_array">
+        <item>Allegra</item>
+        <item>Cetirizine</item>
+        <item>Codeine</item>
+        <item>Iodine</item>
+        <item>Ioratadine</item>
+        <item>penicillin</item>
+        <item>Sulfa</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="martial_status">
+        <item>Single</item>
+        <item>Married</item>
+        <item>Divorced</item>
+        <item>Prefer Not to Mention</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

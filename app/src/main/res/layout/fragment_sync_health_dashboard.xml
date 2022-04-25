@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SyncHealthDashboard"
+    android:background="@color/colorLightGrey">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLightGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/coordinate_dashboard">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_box_grey_bottom_corners"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/img_sync_health_logo"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/synchealthimage" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/img_sync_health_logo"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txt_profile_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:maxLines="1"
+                                android:text="Good Morning"
+                                android:textColor="@color/colorBlack" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txt_profile_name"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:maxLines="2"
+                                android:text="@string/shd_wishes_txt"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/btn_view_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:backgroundTint="@color/colorMaroon"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:textColor="@color/colorWhite"
+                        android:text="@string/shd_view_profile_btn_txt" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img_sync_health_logo"
+                    android:fontFamily="@font/avenir_heavy"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/shd_today_consult_txt"
+                    android:textColor="@color/colorBlack" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_appointment_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_no_appointment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenir_heavy"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="@string/shd_no_appoint_txt"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/s_30" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/d_0"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/d_40"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="25dp"
+                                        android:src="@drawable/chatx" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_heavy"
+                                        android:gravity="center"
+                                        android:text="@string/shd_chat_msg_txt"
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="12dp" />
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="25dp"
+                                        android:layout_marginTop="5dp"
+                                        android:src="@drawable/messgae" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_heavy"
+                                        android:gravity="center"
+                                        android:text="@string/shd_mail_msg_txt"
+                                        android:textColor="@color/colorBlack"
+                                        android:textSize="12dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/d_0"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="120dp"
+                                    android:src="@drawable/circle" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <Button
+                                android:layout_width="@dimen/d_0"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/d_10"
+                                android:layout_weight="0.5"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:textColor="@color/colorWhite"
+                                android:text="@string/shd_start_consult_btn_txt" />
+
+                            <Button
+                                android:layout_width="@dimen/d_0"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/d_5"
+                                android:layout_marginRight="@dimen/d_10"
+                                android:layout_weight="0.5"
+                                android:backgroundTint="@color/colorMaroon"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:textColor="@color/colorWhite"
+                                android:text="@string/shd_cancel_consult_btn_txt" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/colorWhite"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <LinearLayout
+                            android:id="@+id/layout_articles"
+                            android:layout_width="@dimen/d_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:src="@drawable/articles" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_articles_txt"
+                                android:textColor="@color/colorBlack" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_pharmacy"
+                            android:layout_width="@dimen/d_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:src="@drawable/pharmacyimage" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_pharmacy_txt"
+                                android:textColor="@color/colorBlack" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_vitals"
+                            android:layout_width="@dimen/d_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:src="@drawable/vitals" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_vitals_txt"
+                                android:textColor="@color/colorBlack" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_healthinfo"
+                            android:layout_width="@dimen/d_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:src="@drawable/health_info" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_health_info_txt"
+                                android:textColor="@color/colorBlack" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_perscription"
+                            android:layout_width="@dimen/d_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:src="@drawable/prescription" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:text="@string/shd_perscription_txt"
+                                android:textColor="@color/colorBlack" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="@string/shd_previous_consulation_txt"
+                        android:textColor="@color/colorButtonBlue"
+                        android:textSize="16dp" />
+
+                    <Button
+                        android:id="@+id/btn_prev_consult_view_all"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="@string/shd_view_all_btn_txt"
+                        android:textColor="@color/colorWhite" />
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/colorLightGrey"
+                    app:cardCornerRadius="@dimen/d_10"
+                    app:cardElevation="@dimen/d_5">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6">
+
+                            <ImageView
+                                android:id="@+id/img_doctor"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="5dp"
+                                android:src="@drawable/doctor" />
+
+                            <TextView
+                                android:id="@+id/txt_quick_physician"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@+id/img_doctor"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:id="@+id/text_quick_doctor_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txt_quick_physician"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@+id/img_doctor"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="12dp" />
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/btn_quick_book_now"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:backgroundTint="@color/colorBottomBar"
+                            android:fontFamily="@font/avenir_heavy"
+                            android:text="@string/shd_book_now_btn_txt"
+                            android:textColor="@color/colorMaroon" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <com.app.synchealth.view.FabBottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorTransparent"
+            android:theme="@style/itemTextStyle"
+            app:fab_cradle_margin="8dp"
+            app:fab_cradle_rounded_corner_radius="8dp"
+            app:fab_size="50dp"
+            app:itemIconTint="@drawable/selector_bottombar"
+            app:itemTextColor="@drawable/selector_bottombar"
+            app:labelVisibilityMode="labeled">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:text="@string/shd_create_appointment_txt"
+                android:textColor="@color/colorBlack" />
+        </com.app.synchealth.view.FabBottomNavigationView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_sync_health_create_appointment_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@mipmap/ic_action_add_circle"
+            app:elevation="8dp"
+            app:layout_anchor="@id/bottomNavigationView"
+            app:layout_anchorGravity="fill_vertical|center_horizontal"
+            app:tint="@color/colorWhite" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>

@@ -108,7 +108,7 @@ object Utils {
     const val SYNC_HEALTH_BASE_URL = "https://demoehr.csardent.com"
 
     //const val SYNC_HEALTH_BASE_URL = "https://ehr.psyclarity.csardent.com"
-    const val SYNC_HEALTH_URL_PART = "https://demoehr.csardent.com/apis/v2/"
+    const val SYNC_HEALTH_URL_PART = "/apis/v2/"
     const val SYNC_HEALTH_MASTER_URL = "https://masterehr.csardent.com/tcs/"
 
     var selectedSymptoms = ""

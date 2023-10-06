@@ -102,7 +102,7 @@ class LoginUsingCredentialsFragment : BaseFragment() {
         val rctAes = RCTAes()
         runnable = Runnable {
             mCompositeDisposable.add(
-                getSyncHealthRequestInterface(getConfigData().url + Utils.SYNC_HEALTH_URL_PART)
+                getSyncHealthRequestInterface(Utils.SYNC_HEALTH_BASE_URL + Utils.SYNC_HEALTH_URL_PART)
                     .syncHealthLogin(
                         SyncHealthLogin(
                             rctAes.encryptString(getText(binding.editTextUsername)),

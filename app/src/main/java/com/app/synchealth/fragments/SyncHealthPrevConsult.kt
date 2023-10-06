@@ -2,8 +2,10 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.synchealth.R
@@ -11,13 +13,13 @@ import com.app.synchealth.adapters.PreviousConsultationAdapter
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.PrevConsult
 import com.app.synchealth.data.PrevConsultData
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthPrevConsultBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_prev_consult.*
 import java.lang.Exception
 import java.lang.reflect.Type
 import java.util.*
@@ -35,6 +37,7 @@ private const val ARG_PARAM2 = "param2"
 class SyncHealthPrevConsult : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var quickBook: String? = null
+    private lateinit var binding: FragmentSyncHealthPrevConsultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,15 @@ class SyncHealthPrevConsult : BaseFragment() {
         return R.layout.fragment_sync_health_prev_consult
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthPrevConsultBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -57,7 +69,7 @@ class SyncHealthPrevConsult : BaseFragment() {
     }
 
     private fun getPrevConsultDetails() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -82,7 +94,7 @@ class SyncHealthPrevConsult : BaseFragment() {
                                     object : TypeToken<ArrayList<PrevConsultData?>?>() {}.getType()
                                 var prevConsultDetails: ArrayList<PrevConsultData?> =
                                     gson.fromJson(responseBody, prevConsultData)
-                                recycler_view_prev_consultation.apply {
+                                binding.recyclerViewPrevConsultation.apply {
                                     layoutManager = LinearLayoutManager(
                                         mActivity!!,
                                         RecyclerView.VERTICAL,

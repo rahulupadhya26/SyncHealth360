@@ -3,22 +3,22 @@ package com.app.synchealth.fragments
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.app.synchealth.R
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.*
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthProfileBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_consent_letter.view.*
-import kotlinx.android.synthetic.main.fragment_sync_health_dashboard.*
-import kotlinx.android.synthetic.main.fragment_sync_health_profile.*
 import java.lang.Exception
 import java.lang.reflect.Type
 import java.text.SimpleDateFormat
@@ -45,6 +45,7 @@ class SyncHealthProfile : BaseFragment() {
     var selectedMartialStatus: String? = null
     var genderData: Array<String>? = null
     var martialStatusData: Array<String>? = null
+    private lateinit var binding: FragmentSyncHealthProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,15 @@ class SyncHealthProfile : BaseFragment() {
 
     override fun getLayout(): Int {
         return R.layout.fragment_sync_health_profile
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,16 +80,16 @@ class SyncHealthProfile : BaseFragment() {
         genderSpinner()
         martialStatusSpinner()
 
-        img_edit.setOnClickListener {
+        binding.imgEdit.setOnClickListener {
             enableProfileDetails()
         }
 
-        btn_profile_save_btn.setOnClickListener {
+        binding.btnProfileSaveBtn.setOnClickListener {
             disableProfileDetails()
             updateProfileDetails()
         }
 
-        var cal = Calendar.getInstance()
+        val cal = Calendar.getInstance()
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { views, year, monthOfYear, dayOfMonth ->
                 cal.set(Calendar.YEAR, year)
@@ -88,10 +98,10 @@ class SyncHealthProfile : BaseFragment() {
 
                 val myFormat = "yyyy-MM-dd" // mention the format you need
                 val sdf = SimpleDateFormat(myFormat)
-                txt_profile_dob.text = sdf.format(cal.time)
+                binding.txtProfileDob.text = sdf.format(cal.time)
             }
 
-        txt_profile_dob.setOnClickListener {
+        binding.txtProfileDob.setOnClickListener {
             var datePickerDialog = DatePickerDialog(
                 mActivity!!, dateSetListener,
                 cal.get(Calendar.YEAR),
@@ -105,97 +115,96 @@ class SyncHealthProfile : BaseFragment() {
     }
 
     private fun disableProfileDetails() {
-        edit_text_fname.isEnabled = false
-        edit_text_lname.isEnabled = false
-        spinner_gender.isEnabled = false
-        spinner_gender.isClickable = false
-        txt_profile_dob.isEnabled = false
-        txt_profile_dob.isClickable = false
-        spinner_martial_status.isEnabled = false
-        spinner_martial_status.isClickable = false
-        edit_text_ssn.isEnabled = false
-        edit_mother_name.isEnabled = false
-        edit_occupation.isEnabled = false
-        edit_emergency_contact.isEnabled = false
-        edit_mobile_phone.isEnabled = false
-        edit_contact_email.isEnabled = false
-        edit_ec_phone_number.isEnabled = false
-        edit_ec_name.isEnabled = false
-        edit_profile_street.isEnabled = false
-        edit_profile_city.isEnabled = false
-        edit_profile_state.isEnabled = false
-        edit_profile_zip_code.isEnabled = false
-        edit_profile_country.isEnabled = false
-        edit_insurance_provider.isEnabled = false
-        edit_insurance_plan_name.isEnabled = false
-        edit_insurance_subscriber.isEnabled = false
-        edit_insurance_policy_no.isEnabled = false
-        edit_insurance_group_no.isEnabled = false
-        btn_profile_save_btn.visibility = View.GONE
-        img_edit.visibility = View.VISIBLE
-        img_profile_dob_calender.visibility = View.GONE
+        binding.editTextFname.isEnabled = false
+        binding.editTextLname.isEnabled = false
+        binding.spinnerGender.isEnabled = false
+        binding.spinnerGender.isClickable = false
+        binding.txtProfileDob.isEnabled = false
+        binding.txtProfileDob.isClickable = false
+        binding.spinnerMartialStatus.isEnabled = false
+        binding.spinnerMartialStatus.isClickable = false
+        binding.editTextSsn.isEnabled = false
+        binding.editMotherName.isEnabled = false
+        binding.editOccupation.isEnabled = false
+        binding.editEmergencyContact.isEnabled = false
+        binding.editMobilePhone.isEnabled = false
+        binding.editContactEmail.isEnabled = false
+        binding.editEcPhoneNumber.isEnabled = false
+        binding.editEcName.isEnabled = false
+        binding.editProfileStreet.isEnabled = false
+        binding.editProfileCity.isEnabled = false
+        binding.editProfileState.isEnabled = false
+        binding.editProfileZipCode.isEnabled = false
+        binding.editProfileCountry.isEnabled = false
+        binding.editInsuranceProvider.isEnabled = false
+        binding.editInsurancePlanName.isEnabled = false
+        binding.editInsuranceSubscriber.isEnabled = false
+        binding.editInsurancePolicyNo.isEnabled = false
+        binding.editInsuranceGroupNo.isEnabled = false
+        binding.btnProfileSaveBtn.visibility = View.GONE
+        binding.imgEdit.visibility = View.VISIBLE
+        binding.imgProfileDobCalender.visibility = View.GONE
     }
 
     private fun enableProfileDetails() {
-        edit_text_fname.isEnabled = true
-        edit_text_lname.isEnabled = true
-        spinner_gender.isEnabled = true
-        spinner_gender.isClickable = true
-        txt_profile_dob.isEnabled = true
-        txt_profile_dob.isClickable = true
-        spinner_martial_status.isEnabled = true
-        spinner_martial_status.isClickable = true
-        edit_text_ssn.isEnabled = true
-        edit_mother_name.isEnabled = true
-        edit_occupation.isEnabled = true
-        edit_emergency_contact.isEnabled = true
-        edit_mobile_phone.isEnabled = true
-        edit_contact_email.isEnabled = true
-        edit_ec_phone_number.isEnabled = true
-        edit_ec_name.isEnabled = true
-        edit_profile_street.isEnabled = true
-        edit_profile_city.isEnabled = true
-        edit_profile_state.isEnabled = true
-        edit_profile_zip_code.isEnabled = true
-        edit_profile_country.isEnabled = true
-        edit_insurance_provider.isEnabled = true
-        edit_insurance_plan_name.isEnabled = true
-        edit_insurance_subscriber.isEnabled = true
-        edit_insurance_policy_no.isEnabled = true
-        edit_insurance_group_no.isEnabled = true
-        btn_profile_save_btn.visibility = View.VISIBLE
-        img_edit.visibility = View.GONE
-        img_profile_dob_calender.visibility = View.VISIBLE
+        binding.editTextFname.isEnabled = true
+        binding.editTextLname.isEnabled = true
+        binding.spinnerGender.isEnabled = true
+        binding.spinnerGender.isClickable = true
+        binding.txtProfileDob.isEnabled = true
+        binding.txtProfileDob.isClickable = true
+        binding.spinnerMartialStatus.isEnabled = true
+        binding.spinnerMartialStatus.isClickable = true
+        binding.editTextSsn.isEnabled = true
+        binding.editMotherName.isEnabled = true
+        binding.editOccupation.isEnabled = true
+        binding.editEmergencyContact.isEnabled = true
+        binding.editMobilePhone.isEnabled = true
+        binding.editContactEmail.isEnabled = true
+        binding.editEcPhoneNumber.isEnabled = true
+        binding.editEcName.isEnabled = true
+        binding.editProfileStreet.isEnabled = true
+        binding.editProfileCity.isEnabled = true
+        binding.editProfileState.isEnabled = true
+        binding.editProfileZipCode.isEnabled = true
+        binding.editProfileCountry.isEnabled = true
+        binding.editInsuranceProvider.isEnabled = true
+        binding.editInsurancePlanName.isEnabled = true
+        binding.editInsuranceSubscriber.isEnabled = true
+        binding.editInsurancePolicyNo.isEnabled = true
+        binding.editInsuranceGroupNo.isEnabled = true
+        binding.btnProfileSaveBtn.visibility = View.VISIBLE
+        binding.imgEdit.visibility = View.GONE
+        binding.imgProfileDobCalender.visibility = View.VISIBLE
     }
 
     private fun updateProfileData(profileData: ProfileDetails) {
-        //val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
-        edit_text_fname.setText(profileData.fname)
-        edit_text_lname.setText(profileData.lname)
-        spinner_gender.setSelection(genderData!!.indexOf(profileData.sex))
-        txt_profile_dob.text = profileData.DOB
-        spinner_martial_status.setSelection(martialStatusData!!.indexOf(profileData.status))
-        edit_text_ssn.setText(profileData.ss)
-        edit_mother_name.setText(profileData.mothersname)
-        edit_occupation.setText(profileData.occupation)
-        edit_emergency_contact.setText(profileData.phone_contact)
-        edit_mobile_phone.setText(profileData.phone_cell)
-        edit_contact_email.setText(profileData.email)
-        edit_ec_phone_number.setText(profileData.EC_Phone_number)
-        edit_ec_name.setText(profileData.ec_Name)
-        edit_profile_street.setText(profileData.street)
-        edit_profile_city.setText(profileData.city)
-        edit_profile_state.setText(profileData.state)
-        edit_profile_zip_code.setText(profileData.postal_code)
-        edit_profile_country.setText(profileData.country_code)
+        binding.editTextFname.setText(profileData.fname)
+        binding.editTextLname.setText(profileData.lname)
+        binding.spinnerGender.setSelection(genderData!!.indexOf(profileData.sex))
+        binding.txtProfileDob.text = profileData.DOB
+        binding.spinnerMartialStatus.setSelection(martialStatusData!!.indexOf(profileData.status))
+        binding.editTextSsn.setText(profileData.ss)
+        binding.editMotherName.setText(profileData.mothersname)
+        binding.editOccupation.setText(profileData.occupation)
+        binding.editEmergencyContact.setText(profileData.phone_contact)
+        binding.editMobilePhone.setText(profileData.phone_cell)
+        binding.editContactEmail.setText(profileData.email)
+        binding.editEcPhoneNumber.setText(profileData.EC_Phone_number)
+        binding.editEcName.setText(profileData.ec_Name)
+        binding.editProfileStreet.setText(profileData.street)
+        binding.editProfileCity.setText(profileData.city)
+        binding.editProfileState.setText(profileData.state)
+        binding.editProfileZipCode.setText(profileData.postal_code)
+        binding.editProfileCountry.setText(profileData.country_code)
     }
 
     private fun updateInsuranceData(insuranceData: InsuranceDetails) {
-        edit_insurance_provider.setText(insuranceData.provider)
-        edit_insurance_plan_name.setText(insuranceData.plan_name)
-        edit_insurance_subscriber.setText(insuranceData.subscriber_employer)
-        edit_insurance_policy_no.setText(insuranceData.policy_number)
-        edit_insurance_group_no.setText(insuranceData.group_number)
+        binding.editInsuranceProvider.setText(insuranceData.provider)
+        binding.editInsurancePlanName.setText(insuranceData.plan_name)
+        binding.editInsuranceSubscriber.setText(insuranceData.subscriber_employer)
+        binding.editInsurancePolicyNo.setText(insuranceData.policy_number)
+        binding.editInsuranceGroupNo.setText(insuranceData.group_number)
     }
 
     private fun genderSpinner() {
@@ -203,9 +212,9 @@ class SyncHealthProfile : BaseFragment() {
             mActivity!!,
             android.R.layout.simple_list_item_1, genderData!!
         )
-        spinner_gender.adapter = adapter
+        binding.spinnerGender.adapter = adapter
 
-        spinner_gender.onItemSelectedListener = object :
+        binding.spinnerGender.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -226,9 +235,9 @@ class SyncHealthProfile : BaseFragment() {
             mActivity!!,
             android.R.layout.simple_list_item_1, martialStatusData
         )
-        spinner_martial_status.adapter = adapter
+        binding.spinnerMartialStatus.adapter = adapter
 
-        spinner_martial_status.onItemSelectedListener = object :
+        binding.spinnerMartialStatus.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -244,7 +253,7 @@ class SyncHealthProfile : BaseFragment() {
     }
 
     private fun getProfileDetails() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -285,7 +294,7 @@ class SyncHealthProfile : BaseFragment() {
     }
 
     private fun getInsuranceDetails() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -326,7 +335,7 @@ class SyncHealthProfile : BaseFragment() {
     }
 
     private fun updateProfileDetails() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -335,29 +344,29 @@ class SyncHealthProfile : BaseFragment() {
                         UpdateProfileData(
                             rctAes.encryptString(syncHealthGetPatientId()),
                             rctAes.encryptString(syncHealthGetToken()),
-                            rctAes.encryptString(edit_text_fname.text.toString()),
-                            rctAes.encryptString(edit_text_lname.text.toString()),
+                            rctAes.encryptString(binding.editTextFname.text.toString()),
+                            rctAes.encryptString(binding.editTextLname.text.toString()),
                             rctAes.encryptString(selectedGender),
-                            rctAes.encryptString(txt_profile_dob.text.toString()),
+                            rctAes.encryptString(binding.txtProfileDob.text.toString()),
                             rctAes.encryptString(selectedMartialStatus),
-                            rctAes.encryptString(edit_text_ssn.text.toString()),
-                            rctAes.encryptString(edit_mother_name.text.toString()),
-                            rctAes.encryptString(edit_occupation.text.toString()),
-                            rctAes.encryptString(edit_emergency_contact.text.toString()),
-                            rctAes.encryptString(edit_mobile_phone.text.toString()),
-                            rctAes.encryptString(edit_contact_email.text.toString()),
-                            rctAes.encryptString(edit_profile_street.text.toString()),
-                            rctAes.encryptString(edit_profile_city.text.toString()),
-                            rctAes.encryptString(edit_profile_state.text.toString()),
-                            rctAes.encryptString(edit_profile_zip_code.text.toString()),
-                            rctAes.encryptString(edit_profile_country.text.toString()),
-                            rctAes.encryptString(edit_insurance_provider.text.toString()),
-                            rctAes.encryptString(edit_insurance_plan_name.text.toString()),
-                            rctAes.encryptString(edit_insurance_subscriber.text.toString()),
-                            rctAes.encryptString(edit_insurance_policy_no.text.toString()),
-                            rctAes.encryptString(edit_insurance_group_no.text.toString()),
-                            rctAes.encryptString(edit_ec_name.text.toString()),
-                            rctAes.encryptString(edit_ec_phone_number.text.toString()),
+                            rctAes.encryptString(binding.editTextSsn.text.toString()),
+                            rctAes.encryptString(binding.editMotherName.text.toString()),
+                            rctAes.encryptString(binding.editOccupation.text.toString()),
+                            rctAes.encryptString(binding.editEmergencyContact.text.toString()),
+                            rctAes.encryptString(binding.editMobilePhone.text.toString()),
+                            rctAes.encryptString(binding.editContactEmail.text.toString()),
+                            rctAes.encryptString(binding.editProfileStreet.text.toString()),
+                            rctAes.encryptString(binding.editProfileCity.text.toString()),
+                            rctAes.encryptString(binding.editProfileState.text.toString()),
+                            rctAes.encryptString(binding.editProfileZipCode.text.toString()),
+                            rctAes.encryptString(binding.editProfileCountry.text.toString()),
+                            rctAes.encryptString(binding.editInsuranceProvider.text.toString()),
+                            rctAes.encryptString(binding.editInsurancePlanName.text.toString()),
+                            rctAes.encryptString(binding.editInsuranceSubscriber.text.toString()),
+                            rctAes.encryptString(binding.editInsurancePolicyNo.text.toString()),
+                            rctAes.encryptString(binding.editInsuranceGroupNo.text.toString()),
+                            rctAes.encryptString(binding.editEcName.text.toString()),
+                            rctAes.encryptString(binding.editEcPhoneNumber.text.toString()),
                             rctAes.encryptString(insuranceDetails!![0].subscriber_relationship)
                         )
                     )

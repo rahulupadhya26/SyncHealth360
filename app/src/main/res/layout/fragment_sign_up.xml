@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.SignUpFragment"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSignUpNext">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@color/colorWhite"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="First Name"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpFname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Last Name"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpLname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Sex"
+                        android:textColor="@color/colorBlack" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg">
+
+                        <Spinner
+                            android:id="@+id/spinner_signup_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="DOB"
+                        android:textColor="@color/colorBlack" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp">
+
+                        <ImageView
+                            android:id="@+id/img_signup_dob_calender"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/calendar" />
+
+                        <TextView
+                            android:id="@+id/txt_signup_dob"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/img_signup_dob_calender"
+                            android:background="@drawable/edittext_rectangle_bg"
+                            android:fontFamily="@font/avenir_heavy"
+                            android:padding="10dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16dp" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Martial Status"
+                        android:textColor="@color/colorBlack" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg">
+
+                        <Spinner
+                            android:id="@+id/spinner_signup_martial_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="false" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="SSN"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpSsn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Occupation"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpOccupation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Mother's Name"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpMotherName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Cell Phone"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpCellPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Home Phone"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpHomePhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Email"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Street"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpStreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="City"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="State"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Zip Code"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpZipCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="Country"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpCountry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="EC Name"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpEcName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:padding="5dp"
+                        android:text="EC PhoneNumber"
+                        android:textColor="@color/colorBlack" />
+
+                    <EditText
+                        android:id="@+id/etSignUpEcPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorBlack" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSignUpNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/avenir_heavy"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Next Step >>"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

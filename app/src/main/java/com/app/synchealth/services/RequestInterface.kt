@@ -1,7 +1,6 @@
 package com.app.synchealth.services
 
 import com.app.synchealth.data.*
-import com.app.synchealth.data.*
 import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -80,4 +79,19 @@ interface RequestInterface {
 
     @POST("setchat.php")
     fun sendChat(@Body sendChat: SendChat) : Single<ResponseBody>
+
+    @POST("getconfig")
+    fun getConfig(@Body tcCode: TcCode) : Single<ResponseBody>
+
+    @POST("register.php")
+    fun register(@Body sendSignUpData: Register) : Single<ResponseBody>
+
+    @POST("signin.php")
+    fun signInUsingAuthCode(@Body signIn: SignInUsingAuthCode) : Single<ResponseBody>
+
+    @POST("signin_prov.php")
+    fun doctorSignIn(@Body signIn: DoctorSignIn) : Single<ResponseBody>
+
+    @POST("get_provider.php")
+    fun providerDetails(@Body signIn: ProviderDetails) : Single<ResponseBody>
 }

@@ -1,12 +1,15 @@
 package com.app.synchealth.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.app.synchealth.R
 import com.app.synchealth.adapters.ViewPagerAdapter
-import kotlinx.android.synthetic.main.fragment_intro_screen_pager.view.*
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentIntroScreenPagerBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +25,7 @@ class IntroScreenPagerFragment : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var position: Int? = 0
+    private lateinit var binding: FragmentIntroScreenPagerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,18 +39,27 @@ class IntroScreenPagerFragment : BaseFragment() {
         return R.layout.fragment_intro_screen_pager
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentIntroScreenPagerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = ViewPagerAdapter(
             mActivity!!.supportFragmentManager
         )
-        view.view_pager.offscreenPageLimit = 1
-        view.view_pager.adapter = adapter
-        view.indicator.setViewPager(view.view_pager)
-        view.view_pager.currentItem = position!!
-        view.view_pager.isSaveFromParentEnabled = false
-        view.view_pager.addOnPageChangeListener(object :
+        binding.viewPager.offscreenPageLimit = 1
+        binding.viewPager.adapter = adapter
+        binding.indicator.setViewPager(binding.viewPager)
+        binding.viewPager.currentItem = position!!
+        binding.viewPager.isSaveFromParentEnabled = false
+        binding.viewPager.addOnPageChangeListener(object :
             ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -63,18 +76,19 @@ class IntroScreenPagerFragment : BaseFragment() {
             override fun onPageSelected(pos: Int) {
                 position = pos
                 if (position == 0)
-                    view.btn_continue.text = "Get Started"
+                    binding.btnContinue.text = "Get Started"
                 else
-                    view.btn_continue.text = "Finish"
+                    binding.btnContinue.text = "Finish"
             }
 
         })
 
-        view.btn_continue.setOnClickListener {
+        binding.btnContinue.setOnClickListener {
             if (position == 1) {
+                updateDisplayIntroScreen(true)
                 replaceFragmentNoBackStack(LoginFragment(), R.id.layout_home, LoginFragment.TAG)
             } else {
-                view.view_pager.currentItem = position!! + 1
+                binding.viewPager.currentItem = position!! + 1
             }
         }
     }

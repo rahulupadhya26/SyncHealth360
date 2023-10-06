@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi

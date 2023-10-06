@@ -3,6 +3,7 @@ package com.app.synchealth.fragments
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -21,7 +22,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.app.synchealth.MainActivity
 import com.app.synchealth.R
@@ -29,18 +29,19 @@ import com.app.synchealth.controller.*
 import com.app.synchealth.data.*
 import com.app.synchealth.preference.PrefKeys
 import com.app.synchealth.preference.PreferenceHelper
+import com.app.synchealth.preference.PreferenceHelper.get
 import com.app.synchealth.preference.PreferenceHelper.set
 import com.app.synchealth.services.RequestInterface
 import com.app.synchealth.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.GsonBuilder
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.*
-import kotlin.collections.ArrayList
 
 
 abstract class BaseFragment : Fragment(), IFragment, IController {
@@ -54,12 +55,14 @@ abstract class BaseFragment : Fragment(), IFragment, IController {
     private var createPostDialog: BottomSheetDialog? = null
     protected val handler: Handler = Handler()
     protected var runnable: Runnable? = null
+    private var prefs: SharedPreferences? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
         this.mActivity = mContext as MainActivity
         fragment = this
+        prefs = PreferenceHelper.defaultPrefs(mActivity!!)
     }
 
     override fun onCreateView(
@@ -418,6 +421,55 @@ abstract class BaseFragment : Fragment(), IFragment, IController {
 
     override fun profileInfo(): String {
         return mActivity!!.profileInfo()
+    }
+
+    protected fun updateProviderId(response: String) {
+        prefs!![PrefKeys.PREF_ProviderId] = response
+    }
+
+    fun getProviderId(): String {
+        return prefs!![PrefKeys.PREF_ProviderId, ""]!!
+    }
+
+    protected fun saveProviderDetails(response: String) {
+        prefs!![PrefKeys.PREF_ProviderDetails] = response
+    }
+
+    fun getProviderDetails(): DoctorProfileDetails {
+        val providerData = prefs!![PrefKeys.PREF_ProviderDetails, ""]!!
+        val gson = GsonBuilder().create()
+        return gson.fromJson(providerData, DoctorProfileDetails::class.java)
+    }
+
+    override fun displayIntroScreen(): Boolean {
+        return mActivity!!.displayIntroScreen()
+    }
+
+    protected fun updateDisplayIntroScreen(response: Boolean) {
+        val prefs = PreferenceHelper.defaultPrefs(mActivity!!)
+        prefs[PrefKeys.PREF_Intro_screen] = response
+    }
+
+    protected fun getConfigData(): ConfigData {
+        val prefs = PreferenceHelper.defaultPrefs(mActivity!!)
+        val configData = prefs[PrefKeys.PREF_Config_Data, ""]!!
+        val gson = GsonBuilder().create()
+        return gson.fromJson(configData, ConfigData::class.java)
+    }
+
+    protected fun saveConfigData(response: String) {
+        val prefs = PreferenceHelper.defaultPrefs(mActivity!!)
+        prefs[PrefKeys.PREF_Config_Data] = response
+    }
+
+    protected fun getUserName(): String {
+        val prefs = PreferenceHelper.defaultPrefs(mActivity!!)
+        return prefs[PrefKeys.PREF_Username, ""]!!
+    }
+
+    protected fun saveUserName(response: String) {
+        val prefs = PreferenceHelper.defaultPrefs(mActivity!!)
+        prefs[PrefKeys.PREF_Username] = response
     }
 
     override fun clearCache() {

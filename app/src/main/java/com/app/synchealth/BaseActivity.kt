@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.app.synchealth.controller.IFragment
-import com.app.wecare.crypto.DecryptionImpl
-import com.app.wecare.crypto.EncryptionImpl
+import com.app.synchealth.crypto.DecryptionImpl
+import com.app.synchealth.crypto.EncryptionImpl
 import com.app.synchealth.interceptor.CommonInterceptor
-import com.app.wecare.interceptor.DecryptionInterceptor
-import com.app.wecare.interceptor.EncryptionInterceptor
+import com.app.synchealth.interceptor.DecryptionInterceptor
+import com.app.synchealth.interceptor.EncryptionInterceptor
 import com.app.synchealth.services.RequestInterface
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

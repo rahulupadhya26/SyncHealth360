@@ -2,17 +2,18 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RatingBar
 import com.app.synchealth.R
 import com.app.synchealth.data.SendFeedback
 import com.app.synchealth.utils.Utils
 import com.app.synchealth.crypto.RCTAes
-import com.facebook.react.bridge.ReactApplicationContext
+import com.app.synchealth.databinding.FragmentSyncHealthProviderFeedBackBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_provider_feed_back.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +30,7 @@ class SyncHealthProviderFeedBack : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var providerFeedbackRating: String? = null
+    private lateinit var binding: FragmentSyncHealthProviderFeedBackBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,15 @@ class SyncHealthProviderFeedBack : BaseFragment() {
         return R.layout.fragment_sync_health_provider_feed_back
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthProviderFeedBackBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -49,14 +60,14 @@ class SyncHealthProviderFeedBack : BaseFragment() {
         getSubTitle().visibility = View.VISIBLE
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_provider_feedback)
 
-        ratingBar_provider_feedback.onRatingBarChangeListener =
+        binding.ratingBarProviderFeedback.onRatingBarChangeListener =
             RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
                 providerFeedbackRating = p1.toString()
             }
 
-        btn_provider_feedback.setOnClickListener {
+        binding.btnProviderFeedback.setOnClickListener {
             if (providerFeedbackRating != null) {
-                if (edit_txt_provider_feedback.text.toString().trim().isNotEmpty()) {
+                if (binding.editTxtProviderFeedback.text.toString().trim().isNotEmpty()) {
                     sendProviderFeedback()
                 } else {
                     displayToast("Please provide feedback")
@@ -68,7 +79,7 @@ class SyncHealthProviderFeedBack : BaseFragment() {
     }
 
     private fun sendProviderFeedback() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -79,7 +90,7 @@ class SyncHealthProviderFeedBack : BaseFragment() {
                             rctAes.encryptString(Utils.apptId),
                             rctAes.encryptString(providerFeedbackRating),
                             rctAes.encryptString(
-                                edit_txt_provider_feedback.getText().toString().trim()
+                                binding.editTxtProviderFeedback.text.toString().trim()
                             ),
                             rctAes.encryptString("PHY")
                         )

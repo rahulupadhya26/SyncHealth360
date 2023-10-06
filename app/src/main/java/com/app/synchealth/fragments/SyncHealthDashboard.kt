@@ -1,11 +1,14 @@
 package com.app.synchealth.fragments
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,14 +19,12 @@ import com.app.synchealth.controller.OnAppointmentItemClickListener
 import com.app.synchealth.data.*
 import com.app.synchealth.utils.Utils
 import com.app.synchealth.crypto.RCTAes
-import com.app.synchealth.services.SyncHealthService
-import com.facebook.react.bridge.ReactApplicationContext
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthDashboardBinding
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_dashboard.*
-import kotlinx.android.synthetic.main.fragment_sync_health_dashboard.view.*
 import java.lang.reflect.Type
 
 
@@ -45,6 +46,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
     var profileDetails: ArrayList<ProfileDetails>? = null
     var prevSpecialist: ArrayList<PrevSpecialist> = ArrayList()
     var prevSpecData: PrevSpecialist? = null
+    private lateinit var binding: FragmentSyncHealthDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,15 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
         return R.layout.fragment_sync_health_dashboard
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthDashboardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         views = view
@@ -67,13 +78,13 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health)
 
         //Check if service is started or not
-        if (!Utils.isServiceRunning(mActivity!!, SyncHealthService::class.java)) {
+        /*if (!Utils.isServiceRunning(mActivity!!, SyncHealthService::class.java)) {
             Utils.startBackGroundService(mActivity!!)
-        }
+        }*/
 
-        txt_profile_name.text = "Good Morning, " + profileInfo()
+        binding.txtProfileName.text = "Good Morning, " + profileInfo()
         mActivity!!.setUserName()
-        fab_sync_health_create_appointment_btn.setOnClickListener {
+        binding.fabSyncHealthCreateAppointmentBtn.setOnClickListener {
             replaceFragment(
                 SyncHealthCreateAppointBasicInfo(),
                 R.id.layout_home,
@@ -81,7 +92,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        btn_view_profile.setOnClickListener {
+        binding.btnViewProfile.setOnClickListener {
             replaceFragment(
                 SyncHealthProfile(),
                 R.id.layout_home,
@@ -89,7 +100,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        layout_articles.setOnClickListener {
+        binding.layoutArticles.setOnClickListener {
             replaceFragment(
                 SyncHealthArticles(),
                 R.id.layout_home,
@@ -97,11 +108,11 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        layout_pharmacy.setOnClickListener {
+        binding.layoutPharmacy.setOnClickListener {
             displayToast("Screen under construction")
         }
 
-        layout_vitals.setOnClickListener {
+        binding.layoutVitals.setOnClickListener {
             replaceFragment(
                 SyncHealthVitals(),
                 R.id.layout_home,
@@ -109,7 +120,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        layout_perscription.setOnClickListener {
+        binding.layoutPerscription.setOnClickListener {
             replaceFragment(
                 PrescriptionFragment(),
                 R.id.layout_home,
@@ -117,7 +128,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        layout_healthinfo.setOnClickListener {
+        binding.layoutHealthinfo.setOnClickListener {
             replaceFragment(
                 SyncHealthInfo.newInstance(true),
                 R.id.layout_home,
@@ -125,7 +136,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        btn_prev_consult_view_all.setOnClickListener {
+        binding.btnPrevConsultViewAll.setOnClickListener {
             replaceFragment(
                 SyncHealthPrevConsult(),
                 R.id.layout_home,
@@ -133,7 +144,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
             )
         }
 
-        btn_quick_book_now.setOnClickListener {
+        binding.btnQuickBookNow.setOnClickListener {
             if (prevSpecData != null) {
                 Utils.providerId = prevSpecData!!.provider_id
                 Utils.providerType = prevSpecData!!.option_id
@@ -173,7 +184,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
     }*/
 
     private fun getAppointmentList() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         runnable = Runnable {
             mCompositeDisposable.add(
                 getSyncHealthRequestInterface(Utils.SYNC_HEALTH_BASE_URL + Utils.SYNC_HEALTH_URL_PART)
@@ -191,13 +202,13 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
                             val responseBody = result.string()
                             Log.d("Response Body", responseBody)
                             if (checkErrorCode(responseBody)) {
-                                views.cardview_no_appointment.visibility = View.GONE
-                                views.recycler_view_appointment_list.visibility = View.VISIBLE
+                                binding.cardviewNoAppointment.visibility = View.GONE
+                                binding.recyclerViewAppointmentList.visibility = View.VISIBLE
                                 val gson = GsonBuilder().create()
                                 val appointmentList =
                                     gson.fromJson(responseBody, Array<AppointmentList>::class.java)
                                         .toList()
-                                views.recycler_view_appointment_list.apply {
+                                binding.recyclerViewAppointmentList.apply {
                                     layoutManager =
                                         LinearLayoutManager(
                                             mActivity!!,
@@ -210,18 +221,18 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
                                     )
                                 }
                             } else {
-                                views.recycler_view_appointment_list.visibility = View.GONE
-                                views.cardview_no_appointment.visibility = View.VISIBLE
+                                binding.recyclerViewAppointmentList.visibility = View.GONE
+                                binding.cardviewNoAppointment.visibility = View.VISIBLE
                             }
                             getPrevSpecialist()
                         } catch (e: Exception) {
                             hideProgress()
-                            views.cardview_no_appointment.visibility = View.VISIBLE
+                            binding.cardviewNoAppointment.visibility = View.VISIBLE
                             displayToast("Something went wrong.. Please try again later")
                         }
                     }, { error ->
                         hideProgress()
-                        views.cardview_no_appointment.visibility = View.VISIBLE
+                        binding.cardviewNoAppointment.visibility = View.VISIBLE
                         displayToast("Error ${error.localizedMessage}")
                     })
             )
@@ -229,8 +240,9 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
         handler!!.postDelayed(runnable!!, 1000)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getPrevSpecialist() {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         runnable = Runnable {
             mCompositeDisposable.add(
                 getSyncHealthRequestInterface(Utils.SYNC_HEALTH_BASE_URL + Utils.SYNC_HEALTH_URL_PART)
@@ -255,8 +267,8 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
                                 prevSpecialist =
                                     gson.fromJson(responseBody, previousSpecialist)
                                 prevSpecData = prevSpecialist[0]
-                                txt_quick_physician.text = prevSpecData!!.title
-                                text_quick_doctor_name.text =
+                                binding.txtQuickPhysician.text = prevSpecData!!.title
+                                binding.textQuickDoctorName.text =
                                     "Dr. " + prevSpecData!!.fname + " " + prevSpecData!!.lname
                             }
                         } catch (e: Exception) {
@@ -273,7 +285,7 @@ class SyncHealthDashboard : BaseFragment(), OnAppointmentItemClickListener {
     }
 
     private fun cancelAppointment(appointmentList: AppointmentList) {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(

@@ -7,13 +7,24 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
+import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import com.app.synchealth.MainActivity
-import com.app.synchealth.R
 import com.app.synchealth.services.SyncHealthService
+import okhttp3.internal.and
+import java.io.BufferedInputStream
+import java.io.ByteArrayOutputStream
+import java.io.FileInputStream
+import java.io.IOException
+import java.net.InetAddress
+import java.net.NetworkInterface
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets.UTF_8
+import java.util.*
+import kotlin.text.Charsets.UTF_8
 
 
 object Utils {
@@ -95,8 +106,10 @@ object Utils {
     const val CONST_ALLERGY_LIST = "allergy_issue_list"
 
     const val SYNC_HEALTH_BASE_URL = "https://demoehr.csardent.com"
+
     //const val SYNC_HEALTH_BASE_URL = "https://ehr.psyclarity.csardent.com"
-    const val SYNC_HEALTH_URL_PART = "/apis/v2/"
+    const val SYNC_HEALTH_URL_PART = "https://demoehr.csardent.com/apis/v2/"
+    const val SYNC_HEALTH_MASTER_URL = "https://masterehr.csardent.com/tcs/"
 
     var selectedSymptoms = ""
     var selectedStreet = ""
@@ -121,6 +134,36 @@ object Utils {
     var apptPcId = ""
 
     var patientName = ""
+
+
+    var latitude = 0.0
+    var longitude = 0.0
+    var tccode = ""
+    var authCode = ""
+    var firstName = ""
+    var lastName = ""
+    var gender = ""
+    var dob = ""
+    var martialStatus = ""
+    var ssn = ""
+    var occupation = ""
+    var motherName = ""
+    var cellPhone = ""
+    var homePhone = ""
+    var email = ""
+    var street = ""
+    var city = ""
+    var state = ""
+    var zipcode = ""
+    var country = ""
+    var ecName = ""
+    var ecPhoneNo = ""
+    var insuranceName = ""
+    var planName = ""
+    var subscriber = ""
+    var policyNo = ""
+    var groupNo = ""
+    var insurancePhoto = ""
 
     const val NAVIGATE_FROM_DASHBOARD = "fromDashboard"
     const val QUICK_BOOK = "quick_book"
@@ -260,5 +303,132 @@ object Utils {
         } else {
             context.startService(Intent(context, SyncHealthService::class.java))
         }
+    }
+
+    fun convert(bitmap: Bitmap): String? {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+    }
+
+    /**
+     * Convert byte array to hex string
+     * @param bytes toConvert
+     * @return hexValue
+     */
+    fun bytesToHex(bytes: ByteArray): String? {
+        val sbuf = StringBuilder()
+        for (idx in bytes.indices) {
+            val intVal: Int = bytes[idx] and 0xff
+            if (intVal < 0x10) sbuf.append("0")
+            sbuf.append(Integer.toHexString(intVal).toUpperCase())
+        }
+        return sbuf.toString()
+    }
+
+    /**
+     * Get utf8 byte array.
+     * @param str which to be converted
+     * @return  array of NULL if error was found
+     */
+    fun getUTF8Bytes(str: String): ByteArray? {
+        return try {
+            str.toByteArray(charset("UTF-8"))
+        } catch (ex: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Load UTF8withBOM or any ansi text file.
+     * @param filename which to be converted to string
+     * @return String value of File
+     * @throws java.io.IOException if error occurs
+     */
+    @Throws(IOException::class)
+    fun loadFileAsString(filename: String?): String? {
+        val BUFLEN = 1024
+        val `is` = BufferedInputStream(FileInputStream(filename), BUFLEN)
+        return try {
+            val baos = ByteArrayOutputStream(BUFLEN)
+            val bytes = ByteArray(BUFLEN)
+            var isUTF8 = false
+            var read: Int
+            var count = 0
+            while (`is`.read(bytes).also { read = it } != -1) {
+                if (count == 0 && bytes[0] == 0xEF.toByte() && bytes[1] == 0xBB.toByte() && bytes[2] == 0xBF.toByte()) {
+                    isUTF8 = true
+                    baos.write(bytes, 3, read - 3) // drop UTF8 bom marker
+                } else {
+                    baos.write(bytes, 0, read)
+                }
+                count += read
+            }
+            if (isUTF8) String(baos.toByteArray(), Charset.forName("UTF-8")) else String(baos.toByteArray())
+        } finally {
+            try {
+                `is`.close()
+            } catch (ignored: Exception) {
+            }
+        }
+    }
+
+    /**
+     * Returns MAC address of the given interface name.
+     * @param interfaceName eth0, wlan0 or NULL=use first interface
+     * @return  mac address or empty string
+     */
+    fun getMACAddress(interfaceName: String?): String? {
+        try {
+            val interfaces: List<NetworkInterface> =
+                Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (intf in interfaces) {
+                if (interfaceName != null) {
+                    if (!intf.name.equals(interfaceName)) continue
+                }
+                val mac: ByteArray = intf.hardwareAddress ?: return ""
+                val buf = StringBuilder()
+                for (aMac in mac) buf.append(String.format("%02X:", aMac))
+                if (buf.isNotEmpty()) buf.deleteCharAt(buf.length - 1)
+                return buf.toString()
+            }
+        } catch (ignored: Exception) {
+        } // for now eat exceptions
+        return ""
+    }
+
+    /**
+     * Get IP address from first non-localhost interface
+     * @param useIPv4   true=return ipv4, false=return ipv6
+     * @return  address or empty string
+     */
+    fun getIPAddress(useIPv4: Boolean): String? {
+        try {
+            val interfaces: List<NetworkInterface> =
+                Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (intf in interfaces) {
+                val addrs: List<InetAddress> = Collections.list(intf.inetAddresses)
+                for (addr in addrs) {
+                    if (!addr.isLoopbackAddress) {
+                        val sAddr: String = addr.getHostAddress()
+                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        val isIPv4 = sAddr.indexOf(':') < 0
+                        if (useIPv4) {
+                            if (isIPv4) return sAddr
+                        } else {
+                            if (!isIPv4) {
+                                val delim = sAddr.indexOf('%') // drop ip6 zone suffix
+                                return if (delim < 0) sAddr.toUpperCase() else sAddr.substring(
+                                    0,
+                                    delim
+                                ).toUpperCase()
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ignored: Exception) {
+        } // for now eat exceptions
+        return ""
     }
 }

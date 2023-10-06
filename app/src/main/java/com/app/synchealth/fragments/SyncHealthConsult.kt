@@ -3,7 +3,9 @@ package com.app.synchealth.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.MultiAutoCompleteTextView
 import androidx.fragment.app.Fragment
@@ -14,13 +16,13 @@ import com.app.synchealth.adapters.DoctorsListAdapter
 import com.app.synchealth.controller.OnDoctorItemClickListener
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.*
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthConsultBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_consult.view.*
 import java.lang.Exception
 import java.lang.reflect.Type
 
@@ -43,6 +45,7 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
     var physiciansSortedList: List<CommonsList> = listOf()
     var physicianArray: ArrayList<String> = ArrayList()
     var physicians: ArrayList<DoctorsList> = ArrayList()
+    private lateinit var binding: FragmentSyncHealthConsultBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +60,15 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
         return R.layout.fragment_sync_health_consult
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthConsultBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         views = view
@@ -66,14 +78,14 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_consult)
         selectPhysician()
         getPhysicianList()
-        views.btn_previous_specialist_txt.setOnClickListener {
+        binding.btnPreviousSpecialistTxt.setOnClickListener {
             replaceFragment(
                 SyncHealthPrevSpecialist(),
                 R.id.layout_home,
                 SyncHealthPrevSpecialist.TAG
             )
         }
-        views.btn_consult_next_step.setOnClickListener {
+        binding.btnConsultNextStep.setOnClickListener {
             if (!getText(multiAutoCompleteTextViewPhysicianList).isEmpty()) {
                 if (!Utils.providerId.isEmpty()) {
                     replaceFragment(SyncHealthTimeSlot(), R.id.layout_home, SyncHealthTimeSlot.TAG)
@@ -151,7 +163,7 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
     }
 
     private fun getPhysicianList() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -203,7 +215,7 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
     }
 
     private fun getDoctorsList(selectedPhysician: String) {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -244,7 +256,7 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
     }
 
     private fun updatePhysiciansList(physicians: ArrayList<DoctorsList>) {
-        views.recycler_view_doctor_list.apply {
+        binding.recyclerViewDoctorList.apply {
             layoutManager = LinearLayoutManager(
                 mActivity!!,
                 RecyclerView.VERTICAL,
@@ -281,8 +293,8 @@ class SyncHealthConsult : BaseFragment(), OnDoctorItemClickListener {
 
     override fun OnDoctorItemClickListener(doctorList: DoctorsList) {
         Utils.providerId = doctorList.id
-        var physician = multiAutoCompleteTextViewPhysicianList.getText().toString().trim()
-        var physicianList = physician.substring(0, physician.length - 1)
+        val physician = multiAutoCompleteTextViewPhysicianList.text.toString().trim()
+        val physicianList = physician.substring(0, physician.length - 1)
         Utils.apptProviderType = physicianList
         Utils.providerType = doctorList.physician_type
     }

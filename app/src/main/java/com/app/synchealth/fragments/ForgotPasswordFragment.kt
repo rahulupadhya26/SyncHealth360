@@ -1,13 +1,16 @@
 package com.app.synchealth.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.synchealth.R
 import com.app.synchealth.data.LoginUser
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentForgotPasswordBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_forgot_password.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +26,7 @@ class ForgotPasswordFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentForgotPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +40,28 @@ class ForgotPasswordFragment : BaseFragment() {
         return R.layout.fragment_forgot_password
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getBackButton().visibility = View.VISIBLE
         getSubTitle().visibility = View.VISIBLE
         getSubTitle().text = resources.getText(R.string.txt_lbl_header_forgot_password)
 
-        view.btn_reset.setOnClickListener {
-            if(isValidEmail(view.edit_email))
+        binding.btnReset.setOnClickListener {
+            if(isValidEmail(binding.editEmail))
             {
                 showWhiteProgress()
                 mCompositeDisposable.add(
                     getEncryptedRequestInterface()
-                        .forgotPassword(LoginUser(getText(view.edit_email), ""))
+                        .forgotPassword(LoginUser(getText(binding.editEmail), ""))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({

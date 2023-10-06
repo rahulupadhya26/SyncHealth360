@@ -7,19 +7,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.app.synchealth.BuildConfig
 import com.app.synchealth.R
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthInfoBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_sync_health_info.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +56,7 @@ class SyncHealthInfo : BaseFragment() {
 
     private val runningQOrLater =
         android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
+    private lateinit var binding: FragmentSyncHealthInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +67,15 @@ class SyncHealthInfo : BaseFragment() {
 
     override fun getLayout(): Int {
         return R.layout.fragment_sync_health_info
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -195,7 +208,7 @@ class SyncHealthInfo : BaseFragment() {
                     else -> dataSet.dataPoints.first().getValue(Field.FIELD_STEPS).asInt()
                 }
                 Log.i(TAG, "Total steps: $total")
-                txt_steps.text = total.toString()
+                binding.txtSteps.text = total.toString()
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "There was a problem getting the step count.", e)
@@ -209,7 +222,7 @@ class SyncHealthInfo : BaseFragment() {
                     else -> dataSet.dataPoints.first().getValue(Field.FIELD_DISTANCE).asFloat()
                 }
                 Log.i(TAG, "Total distance: $total")
-                txt_distance.text =
+                binding.txtDistance.text =
                     String.format("%.2f", convertMeterToKilometer(total.toFloat()))
             }
             .addOnFailureListener { e ->
@@ -224,7 +237,7 @@ class SyncHealthInfo : BaseFragment() {
                     else -> dataSet.dataPoints.first().getValue(Field.FIELD_AVERAGE)
                 }
                 Log.i(TAG, "Total BPM: $total")
-                txt_heart_rate.text = "$total"
+                binding.txtHeartRate.text = "$total"
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "There was a problem getting the step count.", e)
@@ -240,7 +253,7 @@ class SyncHealthInfo : BaseFragment() {
                     total = ""
                 }
                 Log.i(TAG, "Total Calories: $total")
-                txt_calories.text = "$total"
+                binding.txtCalories.text = "$total"
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "There was a problem getting the step count.", e)
@@ -272,7 +285,7 @@ class SyncHealthInfo : BaseFragment() {
             if (shouldProvideRationale) {
                 Log.i(TAG, "Displaying permission rationale to provide additional context.")
                 Snackbar.make(
-                    health_info_frame_layout,
+                    binding.healthInfoFrameLayout,
                     "Permission Rationale",
                     Snackbar.LENGTH_INDEFINITE
                 )
@@ -332,7 +345,7 @@ class SyncHealthInfo : BaseFragment() {
                 // touches or interactions which have required permissions.
 
                 Snackbar.make(
-                    health_info_frame_layout,
+                    binding.healthInfoFrameLayout,
                     "Permission Denied",
                     Snackbar.LENGTH_INDEFINITE
                 )

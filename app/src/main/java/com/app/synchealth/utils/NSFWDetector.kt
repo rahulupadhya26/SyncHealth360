@@ -2,10 +2,10 @@ package com.app.synchealth.utils
 
 import android.graphics.Bitmap
 import android.util.Log
-import com.google.firebase.ml.vision.FirebaseVision
-import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel
-import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions
+import com.google.mlkit.common.model.LocalModel
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.label.ImageLabeling
+import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 
 object NSFWDetector {
 
@@ -13,13 +13,13 @@ object NSFWDetector {
     private const val LABEL_NSFW = "nonnude"
     private const val CONFIDENCE_THRESHOLD: Float = 0.7F
 
-    private val localModel = FirebaseAutoMLLocalModel.Builder()
+    private val localModel = LocalModel.Builder()
         .setAssetFilePath("automl/manifest.json")
         .build()
 
     private val options =
-        FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel).build()
-    private val interpreter = FirebaseVision.getInstance().getOnDeviceAutoMLImageLabeler(options)
+        CustomImageLabelerOptions.Builder(localModel).build()
+    private val interpreter = ImageLabeling.getClient(options)
 
     fun isNSFW(
         bitmap: Bitmap,
@@ -31,8 +31,8 @@ object NSFWDetector {
         if (threshold < 0 && threshold > 1) {
             threshold = CONFIDENCE_THRESHOLD
         }
-        val image = FirebaseVisionImage.fromBitmap(bitmap)
-        interpreter.processImage(image).addOnSuccessListener { labels ->
+        val image = InputImage.fromBitmap(bitmap, 0)
+        interpreter.process(image).addOnSuccessListener { labels ->
             try {
                 val label = labels[0]
                 when (label.text) {
@@ -43,6 +43,7 @@ object NSFWDetector {
                             callback(false, LABEL_SFW, label.confidence, bitmap)
                         }
                     }
+
                     LABEL_NSFW -> {
                         if (label.confidence < (1 - threshold)) {
                             callback(true, LABEL_NSFW, label.confidence, bitmap)
@@ -50,6 +51,7 @@ object NSFWDetector {
                             callback(false, LABEL_NSFW, label.confidence, bitmap)
                         }
                     }
+
                     else -> {
                         callback(false, "", 0.0F, bitmap)
                     }

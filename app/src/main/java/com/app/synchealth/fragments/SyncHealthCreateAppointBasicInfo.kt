@@ -16,8 +16,10 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.MultiAutoCompleteTextView
 import androidx.annotation.RequiresApi
@@ -29,19 +31,16 @@ import com.app.synchealth.R
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.CommonList
 import com.app.synchealth.data.CommonsList
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthCreateAppointBasicInfoBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.android.datatransport.backend.cct.BuildConfig
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.reflect.TypeToken
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_create_appoint_basic_info.*
-import kotlinx.android.synthetic.main.fragment_sync_health_create_appoint_basic_info.view.*
 import java.util.*
 
 
@@ -72,6 +71,7 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
     var symptomsArray: ArrayList<String> = ArrayList()
     var communicationType: String? = null
     var symptomsSortedList: List<CommonsList> = listOf()
+    private lateinit var binding: FragmentSyncHealthCreateAppointBasicInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +82,15 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
 
     override fun getLayout(): Int {
         return R.layout.fragment_sync_health_create_appoint_basic_info
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthCreateAppointBasicInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -97,27 +106,27 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
         //Get Symptoms List
         getSymptomsList()
 
-        btn_locate_me.setOnClickListener {
+        binding.btnLocateMe.setOnClickListener {
             checkLocationPermission()
         }
 
-        btn_basic_info_next_step.setOnClickListener {
+        binding.btnBasicInfoNextStep.setOnClickListener {
             if (getText(multiAutoCompleteTextView).isNotEmpty() &&
-                getText(views.edit_txt_street).isNotEmpty() &&
-                getText(views.edit_txt_city).isNotEmpty() &&
-                getText(views.edit_txt_state).isNotEmpty() &&
-                getText(views.edit_txt_postal_code).isNotEmpty() &&
-                getText(views.edit_txt_country).isNotEmpty() &&
-                getText(views.edit_txt_phone_number).isNotEmpty() && communicationType != null
+                getText(binding.editTxtStreet).isNotEmpty() &&
+                getText(binding.editTxtCity).isNotEmpty() &&
+                getText(binding.editTxtState).isNotEmpty() &&
+                getText(binding.editTxtPostalCode).isNotEmpty() &&
+                getText(binding.editTxtCountry).isNotEmpty() &&
+                getText(binding.editTxtPhoneNumber).isNotEmpty() && communicationType != null
             ) {
                 val symptoms = multiAutoCompleteTextView.text.toString()
                 Utils.selectedSymptoms = symptoms.substring(0, symptoms.length - 2).trim()
-                Utils.selectedStreet = getText(views.edit_txt_street).trim()
-                Utils.selectedCity = getText(views.edit_txt_city).trim()
-                Utils.selectedState = getText(views.edit_txt_state).trim()
-                Utils.selectedPostalCode = getText(views.edit_txt_postal_code).trim()
-                Utils.selectedCountry = getText(views.edit_txt_country).trim()
-                Utils.selectedPhoneNo = getText(views.edit_txt_phone_number).trim()
+                Utils.selectedStreet = getText(binding.editTxtStreet).trim()
+                Utils.selectedCity = getText(binding.editTxtCity).trim()
+                Utils.selectedState = getText(binding.editTxtState).trim()
+                Utils.selectedPostalCode = getText(binding.editTxtPostalCode).trim()
+                Utils.selectedCountry = getText(binding.editTxtCountry).trim()
+                Utils.selectedPhoneNo = getText(binding.editTxtPhoneNumber).trim()
                 Utils.selectedCommunicationMode = communicationType as String
 
                 if (quickBook.equals(Utils.QUICK_BOOK)) {
@@ -138,33 +147,33 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
             }
         }
 
-        txt_phone_call.setOnClickListener {
-            txt_phone_call.setBackgroundResource(R.drawable.bg_box_blue)
-            txt_phone_call.setTextColor(mActivity!!.getColor(R.color.colorWhite))
-            txt_video_call.setBackgroundResource(R.drawable.bg_box_grey)
-            txt_office_visit.setBackgroundResource(R.drawable.bg_box_grey)
-            txt_video_call.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
-            txt_office_visit.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
+        binding.txtPhoneCall.setOnClickListener {
+            binding.txtPhoneCall.setBackgroundResource(R.drawable.bg_box_blue)
+            binding.txtPhoneCall.setTextColor(mActivity!!.getColor(R.color.colorWhite))
+            binding.txtVideoCall.setBackgroundResource(R.drawable.bg_box_grey)
+            binding.txtOfficeVisit.setBackgroundResource(R.drawable.bg_box_grey)
+            binding.txtVideoCall.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
+            binding.txtOfficeVisit.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
             communicationType = "Phone call"
         }
 
-        txt_video_call.setOnClickListener {
-            txt_video_call.setBackgroundResource(R.drawable.bg_box_blue)
-            txt_video_call.setTextColor(mActivity!!.getColor(R.color.colorWhite))
-            txt_phone_call.setBackgroundResource(R.drawable.bg_box_grey)
-            txt_office_visit.setBackgroundResource(R.drawable.bg_box_grey)
-            txt_phone_call.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
-            txt_office_visit.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
+        binding.txtVideoCall.setOnClickListener {
+            binding.txtVideoCall.setBackgroundResource(R.drawable.bg_box_blue)
+            binding.txtVideoCall.setTextColor(mActivity!!.getColor(R.color.colorWhite))
+            binding.txtPhoneCall.setBackgroundResource(R.drawable.bg_box_grey)
+            binding.txtOfficeVisit.setBackgroundResource(R.drawable.bg_box_grey)
+            binding.txtPhoneCall.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
+            binding.txtOfficeVisit.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
             communicationType = "Video call"
         }
 
-        txt_office_visit.setOnClickListener {
-            txt_office_visit.setBackgroundResource(R.drawable.bg_box_blue)
-            txt_office_visit.setTextColor(mActivity!!.getColor(R.color.colorWhite))
-            txt_video_call.setBackgroundResource(R.drawable.bg_box_grey)
-            txt_phone_call.setBackgroundResource(R.drawable.bg_box_grey)
-            txt_video_call.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
-            txt_phone_call.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
+        binding.txtOfficeVisit.setOnClickListener {
+            binding.txtOfficeVisit.setBackgroundResource(R.drawable.bg_box_blue)
+            binding.txtOfficeVisit.setTextColor(mActivity!!.getColor(R.color.colorWhite))
+            binding.txtVideoCall.setBackgroundResource(R.drawable.bg_box_grey)
+            binding.txtPhoneCall.setBackgroundResource(R.drawable.bg_box_grey)
+            binding.txtVideoCall.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
+            binding.txtPhoneCall.setTextColor(mActivity!!.getColor(R.color.colorPrimary))
             communicationType = "Office visit"
         }
 
@@ -332,7 +341,7 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                             val uri = Uri.fromParts(
                                 "package",
-                                BuildConfig.APPLICATION_ID, null
+                                com.app.synchealth.BuildConfig.APPLICATION_ID, null
                             )
                             intent.data = uri
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -400,16 +409,16 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
         //tv_add.text = addressList.get(0).getAddressLine(0)
         Log.d("Last Location", "$addressList")
         if (addressList.get(0).subLocality != null && !addressList.get(0).subLocality.isEmpty()) {
-            views.edit_txt_street.setText(addressList.get(0).subLocality)
+            binding.editTxtStreet.setText(addressList.get(0).subLocality)
         } else if (addressList.get(0).thoroughfare != null && !addressList.get(0).thoroughfare.isEmpty()) {
-            views.edit_txt_street.setText(addressList.get(0).thoroughfare)
+            binding.editTxtStreet.setText(addressList.get(0).thoroughfare)
         } else if (addressList.get(0).subAdminArea != null && !addressList.get(0).subAdminArea.isEmpty()) {
-            views.edit_txt_street.setText(addressList.get(0).subAdminArea)
+            binding.editTxtStreet.setText(addressList.get(0).subAdminArea)
         }
-        views.edit_txt_city.setText(addressList.get(0).locality)
-        views.edit_txt_state.setText(addressList.get(0).adminArea)
-        views.edit_txt_postal_code.setText(addressList.get(0).postalCode)
-        views.edit_txt_country.setText(addressList.get(0).countryName)
+        binding.editTxtCity.setText(addressList.get(0).locality)
+        binding.editTxtState.setText(addressList.get(0).adminArea)
+        binding.editTxtPostalCode.setText(addressList.get(0).postalCode)
+        binding.editTxtCountry.setText(addressList.get(0).countryName)
         fusedLocationProvider!!.removeLocationUpdates(locationCallback)
     }
 
@@ -421,7 +430,7 @@ class SyncHealthCreateAppointBasicInfo : BaseFragment() {
     }
 
     private fun getSymptomsList() {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(

@@ -1,18 +1,13 @@
 package com.app.synchealth.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.app.synchealth.R
 import com.app.synchealth.controller.OnPrevSpecialistItemClickListener
 import com.app.synchealth.data.PrevSpecialist
-import kotlinx.android.synthetic.main.layout_item_doctors_list.view.cardview_layout_doctor
-import kotlinx.android.synthetic.main.layout_item_doctors_list.view.txt_doctor_name
-import kotlinx.android.synthetic.main.layout_item_prev_specialist.view.*
+import com.app.synchealth.databinding.LayoutItemPrevSpecialistBinding
 
 class PreviousSpecialistAdapter(
     val context: Context,
@@ -23,29 +18,27 @@ class PreviousSpecialistAdapter(
         parent: ViewGroup,
         viewType: Int
     ): PreviousSpecialistAdapter.ViewHolder {
-        val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_item_prev_specialist, parent, false)
-        return ViewHolder(v)
+        val binding = LayoutItemPrevSpecialistBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(holder: PreviousSpecialistAdapter.ViewHolder, position: Int) {
-
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        holder.doctorName.text = item.fname + " " + item.lname
-        holder.doctorTitle.text = item.title
-        holder.doctorLayout.setOnClickListener {
+        holder.binding.txtDoctorName.text = item.fname + " " + item.lname
+        holder.binding.txtDoctorTitle.text = item.title
+        holder.binding.cardviewLayoutDoctor.setOnClickListener {
             adapterItemClickListener!!.OnPrevSpecialistItemClickListener(item)
         }
-
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val doctorName: TextView = itemView.txt_doctor_name
-        val doctorTitle: TextView = itemView.txt_doctor_title
-        val doctorLayout: CardView = itemView.cardview_layout_doctor
-    }
+    inner class ViewHolder(val binding: LayoutItemPrevSpecialistBinding) : RecyclerView.ViewHolder(binding.root)
 }

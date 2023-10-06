@@ -1,10 +1,13 @@
 package com.app.synchealth.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.synchealth.R
-import kotlinx.android.synthetic.main.fragment_intro_screens.view.*
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentIntroScreensBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +23,7 @@ class IntroScreensFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentIntroScreensBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,17 +37,26 @@ class IntroScreensFragment : BaseFragment() {
         return R.layout.fragment_intro_screens
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentIntroScreensBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         when(param1)
         {
             "0" -> {
-                view.txt_subtext.text = "Journey towards sobriety starts here"
-                view.img_intro.setImageResource(R.drawable.img_intro_1)
+                binding.txtSubtext.text = "Journey towards sobriety starts here"
+                binding.imgIntro.setImageResource(R.drawable.img_intro_1)
             }
             "1" -> {
-                view.txt_subtext.text = "Take that extra mile and you will be the winner"
-                view.img_intro.setImageResource(R.drawable.img_intro_2)
+                binding.txtSubtext.text = "Take that extra mile and you will be the winner"
+                binding.imgIntro.setImageResource(R.drawable.img_intro_2)
             }
         }
 

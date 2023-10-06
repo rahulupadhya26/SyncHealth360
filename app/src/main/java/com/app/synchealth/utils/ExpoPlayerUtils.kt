@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.app.synchealth.MainActivity
 import com.app.synchealth.R
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -80,7 +81,7 @@ class ExpoPlayerUtils {
     private fun buildMediaSource(uri: Uri,context: Context): MediaSource? {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(context, "exoplayer-codelab")
         return ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(uri)
+            .createMediaSource(MediaItem.fromUri(uri))
     }
 
     fun releasePlayer() {

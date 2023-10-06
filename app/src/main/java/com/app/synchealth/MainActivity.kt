@@ -28,12 +28,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.loader.content.CursorLoader
 import com.app.synchealth.data.UserData
@@ -42,6 +42,8 @@ import com.app.synchealth.preference.PreferenceHelper
 import com.app.synchealth.utils.NSFWDetector
 import com.app.synchealth.utils.Utils
 import com.app.synchealth.controller.IController
+import com.app.synchealth.databinding.ActivityMainBinding
+import com.app.synchealth.databinding.LayoutHeaderDrawerBinding
 import com.app.synchealth.fragments.LoginFragment
 import com.app.synchealth.fragments.SplashFragment
 import com.app.synchealth.fragments.SyncHealthDashboard
@@ -54,9 +56,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_header.*
-import kotlinx.android.synthetic.main.layout_header_drawer.view.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -82,11 +81,15 @@ class MainActivity : BaseActivity(), IController {
 
     var progressAlive = false
     var pDialog: ProgressDialog? = null
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var layoutHeaderDrawerBinding: LayoutHeaderDrawerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adjustFontScale(resources.configuration, 1.0f)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         preference = PreferenceHelper.defaultPrefs(this)
         if (!checkPermission()) {
             requestPermission(permissionCode)
@@ -97,20 +100,22 @@ class MainActivity : BaseActivity(), IController {
         }
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         FirebaseApp.initializeApp(this)
-        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_name))
-        ic_menu.setOnClickListener { handleClick(it) }
-        ic_search.setOnClickListener { handleClick(it) }
-        search.setOnClickListener { handleClick(it) }
-        close.setOnClickListener { handleClick(it) }
-        ic_notification.setOnClickListener { handleClick(it) }
-        nav_view.getHeaderView(0).drawer_img_back.setOnClickListener { _view -> handleClick(_view) }
-        nav_view.setNavigationItemSelectedListener { item: MenuItem ->
-            drawer_layout.closeDrawer(GravityCompat.START)
+        binding.header.icMenu.setOnClickListener { handleClick(it) }
+        binding.header.icSearch.setOnClickListener { handleClick(it) }
+        binding.header.search.setOnClickListener { handleClick(it) }
+        binding.header.close.setOnClickListener { handleClick(it) }
+        binding.header.icNotification.setOnClickListener { handleClick(it) }
+        val headerView = binding.navView.getHeaderView(0)
+        layoutHeaderDrawerBinding = LayoutHeaderDrawerBinding.bind(headerView)
+        layoutHeaderDrawerBinding.drawerImgBack.setOnClickListener { _view -> handleClick(_view) }
+        binding.navView.setNavigationItemSelectedListener { item: MenuItem ->
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
             handleClick(item.itemId)
             false
         }
-        searchText.setOnEditorActionListener { _, actionId, _ ->
+        binding.header.searchText.setOnEditorActionListener { _, actionId, _ ->
             when (actionId and EditorInfo.IME_MASK_ACTION) {
                 EditorInfo.IME_ACTION_DONE -> {
                     //onSearchClick()
@@ -261,15 +266,15 @@ class MainActivity : BaseActivity(), IController {
 
     private fun handleClick(view: View) {
         when (view.id) {
-            R.id.drawer_img_back -> {
-                drawer_layout.closeDrawer(GravityCompat.START)
+            R.id.drawerImgBack -> {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
             }
             R.id.ic_menu -> {
-                drawer_layout.openDrawer(GravityCompat.START)
+                binding.drawerLayout.openDrawer(GravityCompat.START)
             }
             R.id.ic_search -> {
-                hideKeyboard(searchText)
-                layout_search.visibility = View.VISIBLE
+                hideKeyboard(binding.header.searchText)
+                binding.header.layoutSearch.visibility = View.VISIBLE
             }
             R.id.search -> {
                 //onSearchClick()
@@ -306,9 +311,9 @@ class MainActivity : BaseActivity(), IController {
     }*/
 
     private fun closeSearch() {
-        hideKeyboard(searchText)
-        layout_search.visibility = View.GONE
-        searchText.setText("")
+        hideKeyboard(binding.header.searchText)
+        binding.header.layoutSearch.visibility = View.GONE
+        binding.header.searchText.setText("")
     }
 
     private fun handleClick(itemId: Int) {
@@ -383,13 +388,13 @@ class MainActivity : BaseActivity(), IController {
 
     @Suppress("DEPRECATION")
     fun showPlainProgress() {
-        layout_progress.visibility = View.VISIBLE
+        binding.layoutProgress.visibility = View.VISIBLE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            progress.indeterminateDrawable.colorFilter =
+            binding.progress.indeterminateDrawable.colorFilter =
                 BlendModeColorFilter(getColor(R.color.colorPrimary), BlendMode.SRC_ATOP)
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                progress.indeterminateDrawable.setColorFilter(
+                binding.progress.indeterminateDrawable.setColorFilter(
                     getColor(R.color.colorPrimary),
                     android.graphics.PorterDuff.Mode.MULTIPLY
                 )
@@ -399,13 +404,13 @@ class MainActivity : BaseActivity(), IController {
 
     @Suppress("DEPRECATION")
     fun showWhiteProgress() {
-        layout_progress.visibility = View.VISIBLE
+        binding.layoutProgress.visibility = View.VISIBLE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            progress.indeterminateDrawable.colorFilter =
+            binding.progress.indeterminateDrawable.colorFilter =
                 BlendModeColorFilter(getColor(R.color.colorWhite), BlendMode.SRC_ATOP)
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                progress.indeterminateDrawable.setColorFilter(
+                binding.progress.indeterminateDrawable.setColorFilter(
                     getColor(R.color.colorWhite),
                     android.graphics.PorterDuff.Mode.MULTIPLY
                 )
@@ -517,6 +522,10 @@ class MainActivity : BaseActivity(), IController {
         return preference!![PrefKeys.PREF_Sync_Health_Profile_Info, ""]!!
     }
 
+    override fun displayIntroScreen(): Boolean {
+        return preference!![PrefKeys.PREF_Intro_screen, false]!!
+    }
+
     override fun sendEventLog(key: String, value: String) {
         try {
             val bundle = Bundle()
@@ -573,6 +582,8 @@ class MainActivity : BaseActivity(), IController {
         preference!![PrefKeys.PREF_Sync_Health_Patient_Id] = ""
         preference!![PrefKeys.PREF_Sync_Health_Token] = ""
         preference!![PrefKeys.PREF_Sync_Health_Profile_Info] = ""
+        preference!![PrefKeys.PREF_ProviderDetails] = ""
+        preference!![PrefKeys.PREF_ProviderId] = ""
         getHeader().visibility = View.GONE
         swipeSliderEnable(false)
         setBottomNavigation(null)
@@ -582,11 +593,11 @@ class MainActivity : BaseActivity(), IController {
     fun setUserName() {
         if (getUserInfo().id.isNotEmpty()) {
             val name = getUserInfo().name + " " + getUserInfo().lastname
-            nav_view.getHeaderView(0).name_profile.text = name
-            nav_view.getHeaderView(0).email_profile.text = getUserInfo().email
+            layoutHeaderDrawerBinding.nameProfile.text = name
+            layoutHeaderDrawerBinding.emailProfile.text = getUserInfo().email
             Glide.with(this).load(getUserInfo().userProfilePhoto)
                 .apply(RequestOptions().optionalCircleCrop())
-                .into(nav_view.getHeaderView(0).img_profile)
+                .into(layoutHeaderDrawerBinding.imgProfile)
             /*nav_view.getHeaderView(0).img_profile.setOnClickListener {
                 replaceFragment(
                     ImageViewerFragment.newInstance(getUserInfo().userProfilePhoto),
@@ -601,9 +612,9 @@ class MainActivity : BaseActivity(), IController {
 
     override fun swipeSliderEnable(flag: Boolean) {
         if (flag)
-            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED)
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED)
         else
-            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
     private fun loadBitmap(fileName: String) {
@@ -613,7 +624,7 @@ class MainActivity : BaseActivity(), IController {
         ) { isNSFW, label, confidence, image ->
             if (label == Utils.LABEL_SFW) {
                 Toast.makeText(this, "This is an obscene image", Toast.LENGTH_SHORT).show()
-            } else if (label == Utils.LABEL_NSFW) {
+            } else if (label == Utils.LABEL_NSFW || label.isEmpty()) {
                 if (imageView != null) {
                     Glide.with(this)
                         .load(File(fileName)).apply(RequestOptions().optionalCircleCrop())
@@ -624,6 +635,47 @@ class MainActivity : BaseActivity(), IController {
                 //Toast.makeText(this, "SFW with confidence: $confidence", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Error while loading image", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == requestGalleryImage && resultCode == Activity.RESULT_OK) {
+            if (data!!.clipData != null) {
+                val count = data.clipData!!.itemCount
+                for (i in 0 until count) {
+                    mCurrentPhotoPath = getRealPathFromURI(data.clipData!!.getItemAt(i).uri)
+                    loadBitmap(mCurrentPhotoPath!!)
+                }
+            } else if (data.data != null) {
+                try {
+                    mCurrentPhotoPath = getRealPathFromURI(data.data!!)
+                    loadBitmap(mCurrentPhotoPath!!)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } else if (requestCode == requestVideoUpload && resultCode == Activity.RESULT_OK) {
+            if (data!!.clipData != null) {
+                val count = data.clipData!!.itemCount
+                for (i in 0 until count) {
+                    mCurrentPhotoPath = getRealPathFromURI(data.clipData!!.getItemAt(i).uri)
+                }
+            } else if (data.data != null) {
+                try {
+                    mCurrentPhotoPath = getRealPathFromURI(data.data!!)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+            loadBitmap(mCurrentPhotoPath!!)
+        } else if (requestCode == requestImageCapture && resultCode == Activity.RESULT_OK) {
+            try {
+                loadBitmap(mCurrentPhotoPath!!)
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
     }

@@ -5,7 +5,9 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.MultiAutoCompleteTextView
 import androidx.core.graphics.drawable.toBitmap
@@ -15,14 +17,12 @@ import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.CommonList
 import com.app.synchealth.data.CommonsList
 import com.app.synchealth.data.UploadImage
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthMedicationBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_consent_letter.*
-import kotlinx.android.synthetic.main.fragment_sync_health_medication.*
-import kotlinx.android.synthetic.main.fragment_sync_health_medication.view.*
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
@@ -42,8 +42,8 @@ class SyncHealthMedication : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var multiAutoCompleteTextViewSelectAllergies: MultiAutoCompleteTextView
-    lateinit var views: View
     var allergiesArray: ArrayList<String> = ArrayList()
+    private lateinit var binding: FragmentSyncHealthMedicationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,34 +57,42 @@ class SyncHealthMedication : BaseFragment() {
         return R.layout.fragment_sync_health_medication
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthMedicationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        views = view
         getHeader().visibility = View.GONE
         getBackButton().visibility = View.VISIBLE
         getSubTitle().visibility = View.VISIBLE
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_medication)
         selectAllergies()
         getAllergiesList()
-        btn_add_picture.setOnClickListener {
-            captureImage(views.img_capture_photo_for_review)
+        binding.btnAddPicture.setOnClickListener {
+            captureImage(binding.imgCapturePhotoForReview)
         }
-        btn_current_medication.setOnClickListener {
+        binding.btnCurrentMedication.setOnClickListener {
             var allergyText = multiAutoCompleteTextViewSelectAllergies.getText().toString()
             if (!allergyText.isEmpty()) {
-                if (!views.edit_txt_current_medication.text.toString().isEmpty()) {
-                    if (!views.edit_txt_medication_explaination.text.toString().isEmpty()) {
-                        if (img_capture_photo_for_review.drawable != null) {
-                            val bitmap = img_capture_photo_for_review.getDrawable().toBitmap()
+                if (!binding.editTxtCurrentMedication.text.toString().isEmpty()) {
+                    if (!binding.editTxtMedicationExplaination.text.toString().isEmpty()) {
+                        if (binding.imgCapturePhotoForReview.drawable != null) {
+                            val bitmap = binding.imgCapturePhotoForReview.drawable.toBitmap()
                             uploadMedicationLetter(bitmap)
                         } else {
                             navigateToNextScreen()
                         }
                     } else {
-                        views.edit_txt_medication_explaination.error = "Please enter detail"
+                        binding.editTxtMedicationExplaination.error = "Please enter detail"
                     }
                 } else {
-                    views.edit_txt_current_medication.error = "Please enter current medication"
+                    binding.editTxtCurrentMedication.error = "Please enter current medication"
                 }
             } else {
                 displayToast("Please select allergies, if any")
@@ -105,8 +113,7 @@ class SyncHealthMedication : BaseFragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun selectAllergies() {
-        multiAutoCompleteTextViewSelectAllergies =
-            views.findViewById(R.id.multi_auto_complete_text_allergies)
+        multiAutoCompleteTextViewSelectAllergies = binding.multiAutoCompleteTextAllergies
         multiAutoCompleteTextViewSelectAllergies.setPadding(15, 15, 15, 15)
         @Suppress("DEPRECATION")
         multiAutoCompleteTextViewSelectAllergies.setTextColor(getResources().getColor(R.color.colorBlack))
@@ -136,7 +143,7 @@ class SyncHealthMedication : BaseFragment() {
     }
 
     private fun getAllergiesList() {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -195,8 +202,8 @@ class SyncHealthMedication : BaseFragment() {
         var allergyText =
             multiAutoCompleteTextViewSelectAllergies.getText().toString()
         Utils.allergies = allergyText.substring(0, allergyText.length - 2).trim()
-        Utils.medication = views.edit_txt_current_medication.text.toString().trim()
-        Utils.details = views.edit_txt_medication_explaination.text.toString().trim()
+        Utils.medication = binding.editTxtCurrentMedication.text.toString().trim()
+        Utils.details = binding.editTxtMedicationExplaination.text.toString().trim()
         replaceFragment(
             SyncHealthFinalReview(),
             R.id.layout_home,
@@ -205,7 +212,7 @@ class SyncHealthMedication : BaseFragment() {
     }
 
     private fun uploadMedicationLetter(bitmap: Bitmap) {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(

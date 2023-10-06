@@ -1,14 +1,17 @@
 package com.app.synchealth.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.synchealth.R
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentCreateAppointCongratulationsBinding
 import com.app.synchealth.utils.Utils
-import kotlinx.android.synthetic.main.fragment_create_appoint_congratulations.*
-import kotlinx.android.synthetic.main.fragment_create_appoint_congratulations.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +27,7 @@ class CreateAppointCongratulations : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentCreateAppointCongratulationsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,14 +41,24 @@ class CreateAppointCongratulations : BaseFragment() {
         return R.layout.fragment_create_appoint_congratulations
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentCreateAppointCongratulationsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
         getBackButton().visibility = View.GONE
         getSubTitle().visibility = View.GONE
-        text_final_fname.text = Utils.patientName
-        text_appointment_date_time.text = Utils.aptScheduleDate + " " + Utils.aptScheduleTime
-        view.btn_go_to_dashboard.setOnClickListener {
+        binding.textFinalFname.text = Utils.patientName
+        binding.textAppointmentDateTime.text = Utils.aptScheduleDate + " " + Utils.aptScheduleTime
+        binding.btnGoToDashboard.setOnClickListener {
             for (i in 0 until mActivity!!.supportFragmentManager.backStackEntryCount) {
                 if (mActivity!!.getCurrentFragment() !is SyncHealthDashboard) {
                     popBackStack()

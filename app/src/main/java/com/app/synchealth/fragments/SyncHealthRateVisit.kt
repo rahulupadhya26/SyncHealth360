@@ -2,18 +2,19 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RatingBar
 import com.app.synchealth.R
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.SendFeedback
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthRateVisitBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_provider_feed_back.*
-import kotlinx.android.synthetic.main.fragment_sync_health_rate_visit.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +31,7 @@ class SyncHealthRateVisit : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var rateYourVistRating: String? = null
+    private lateinit var binding: FragmentSyncHealthRateVisitBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,15 @@ class SyncHealthRateVisit : BaseFragment() {
         return R.layout.fragment_sync_health_rate_visit
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthRateVisitBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -50,15 +61,14 @@ class SyncHealthRateVisit : BaseFragment() {
         getSubTitle().visibility = View.VISIBLE
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_rate_visit)
 
-        ratingBar_visit_rate.onRatingBarChangeListener =
+        binding.ratingBarVisitRate.onRatingBarChangeListener =
             RatingBar.OnRatingBarChangeListener { p0, p1, p2 ->
                 rateYourVistRating = p1.toString()
             }
 
-        btn_visit_rate.setOnClickListener {
+        binding.btnVisitRate.setOnClickListener {
             if (rateYourVistRating != null) {
-                if (!edit_txt_visit_rate.getText().toString().trim()
-                        .isEmpty()
+                if (binding.editTxtVisitRate.text.toString().trim().isNotEmpty()
                 ) {
                     sendVisitRate()
                 } else {
@@ -71,7 +81,7 @@ class SyncHealthRateVisit : BaseFragment() {
     }
 
     private fun sendVisitRate() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -82,7 +92,7 @@ class SyncHealthRateVisit : BaseFragment() {
                             rctAes.encryptString(Utils.apptId),
                             rctAes.encryptString(rateYourVistRating),
                             rctAes.encryptString(
-                                edit_txt_visit_rate.getText().toString().trim()
+                                binding.editTxtVisitRate.text.toString().trim()
                             ),
                             rctAes.encryptString("VIS")
                         )

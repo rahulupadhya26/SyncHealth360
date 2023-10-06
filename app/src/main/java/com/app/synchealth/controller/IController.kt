@@ -26,6 +26,7 @@ interface IController {
     fun syncHealthGetPatientId(): String
     fun syncHealthGetToken(): String
     fun profileInfo(): String
+    fun displayIntroScreen():Boolean
     fun isLoggedIn(): Boolean
     fun clearCache()
     fun sendEventLog(key: String, value: String)

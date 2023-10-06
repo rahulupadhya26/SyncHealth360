@@ -1,4 +1,4 @@
-package com.app.wecare.view
+package com.app.synchealth.view
 
 import com.google.android.material.shape.EdgeTreatment
 import com.google.android.material.shape.ShapePath

@@ -2,8 +2,10 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.synchealth.R
@@ -13,15 +15,14 @@ import com.app.synchealth.controller.OnSuggestedVideoClickListener
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.Articles
 import com.app.synchealth.data.GetArticles
-import com.app.synchealth.data.SyncHealthLogin
 import com.app.synchealth.utils.ExpoPlayerUtils
 import com.app.synchealth.utils.Utils
 import com.app.synchealth.data.*
-import com.facebook.react.bridge.ReactApplicationContext
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthArticlesBinding
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_articles.*
 import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,6 +41,7 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
     private var param2: String? = null
     var suggestedVideos: ArrayList<String> = ArrayList()
     private var expoPlayerUtils: ExpoPlayerUtils? = null
+    private lateinit var binding: FragmentSyncHealthArticlesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +55,15 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
         return R.layout.fragment_sync_health_articles
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthArticlesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -61,15 +72,15 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_articles)
         showProgress()
         getArticles()
-        txt_videoplayer_close.setOnClickListener {
+        binding.txtVideoplayerClose.setOnClickListener {
             try {
                 if (expoPlayerUtils != null) {
                     expoPlayerUtils!!.releasePlayer()
                 }
                 getSubTitle().visibility = View.VISIBLE
-                layout_articles_list.visibility = View.VISIBLE
+                binding.layoutArticlesList.visibility = View.VISIBLE
                 getBackButton().visibility = View.VISIBLE
-                layout_videoplayer.visibility = View.GONE
+                binding.layoutVideoplayer.visibility = View.GONE
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -77,7 +88,7 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
     }
 
     private fun getArticles() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         runnable = Runnable {
             mCompositeDisposable.add(
                 getSyncHealthRequestInterface(Utils.SYNC_HEALTH_BASE_URL + Utils.SYNC_HEALTH_URL_PART)
@@ -98,7 +109,7 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
                                 val articlesList =
                                     gson.fromJson(responseBody, Array<Articles>::class.java)
                                         .toList()
-                                recyclerview_articles.apply {
+                                binding.recyclerviewArticles.apply {
                                     layoutManager =
                                         LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
                                     adapter = ArticlesAdapter(
@@ -111,8 +122,8 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
                                     suggestedVideos.add(articles.link)
                                 }
                                 if (suggestedVideos.isNotEmpty()) {
-                                    title_suggest_video.visibility = View.VISIBLE
-                                    recycler_view_suggested_videos.apply {
+                                    binding.titleSuggestVideo.visibility = View.VISIBLE
+                                    binding.recyclerViewSuggestedVideos.apply {
                                         layoutManager =
                                             LinearLayoutManager(
                                                 mContext,
@@ -126,22 +137,22 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
                                     }
                                 }
                             } else {
-                                text_no_articles_info.visibility = View.VISIBLE
-                                text_no_articles_info.text =
+                                binding.textNoArticlesInfo.visibility = View.VISIBLE
+                                binding.textNoArticlesInfo.text =
                                     "No record found."
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
                             hideProgress()
-                            text_no_articles_info.visibility = View.VISIBLE
-                            text_no_articles_info.text =
+                            binding.textNoArticlesInfo.visibility = View.VISIBLE
+                            binding.textNoArticlesInfo.text =
                                 "No record found."
                             displayToast("Something went wrong.. Please try after sometime")
                         }
                     }, { error ->
                         hideProgress()
-                        text_no_articles_info.visibility = View.VISIBLE
-                        text_no_articles_info.text =
+                        binding.textNoArticlesInfo.visibility = View.VISIBLE
+                        binding.textNoArticlesInfo.text =
                             "No record found."
                         displayToast("Error ${error.localizedMessage}")
                     })
@@ -198,9 +209,9 @@ class SyncHealthArticles : BaseFragment(), OnSuggestedVideoClickListener {
     override fun OnSuggestedVideoClickListener(video: String) {
         expoPlayerUtils = ExpoPlayerUtils()
         getSubTitle().visibility = View.GONE
-        layout_articles_list.visibility = View.GONE
+        binding.layoutArticlesList.visibility = View.GONE
         getBackButton().visibility = View.GONE
-        layout_videoplayer.visibility = View.VISIBLE
-        expoPlayerUtils!!.initializePlayer(mContext!!, videoPlayer, video)
+        binding.layoutVideoplayer.visibility = View.VISIBLE
+        expoPlayerUtils!!.initializePlayer(mContext!!, binding.videoPlayer, video)
     }
 }

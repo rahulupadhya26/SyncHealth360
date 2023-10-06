@@ -1,11 +1,13 @@
 package com.app.synchealth.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.app.synchealth.R
 import com.app.synchealth.data.UserData
 import com.app.synchealth.controller.OnOtpCompletionListener
-import kotlinx.android.synthetic.main.fragment_validate_o_t_p.view.*
+import com.app.synchealth.databinding.FragmentValidateOTPBinding
 
 private const val ARG_PARAM1 = "param1"
 
@@ -13,6 +15,7 @@ class ValidateOTPFragment : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var userData: UserData? = null
     private var otpString:String? = ""
+    private lateinit var binding: FragmentValidateOTPBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +28,18 @@ class ValidateOTPFragment : BaseFragment() {
         return R.layout.fragment_validate_o_t_p
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentValidateOTPBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.otp_view.setOtpCompletionListener(
+        binding.otpView.setOtpCompletionListener(
             object : OnOtpCompletionListener {
                 override fun onOtpCompleted(otp: String?) {
                     otpString = otp
@@ -36,14 +48,14 @@ class ValidateOTPFragment : BaseFragment() {
             }
         )
 
-        view.txt_email.text = userData!!.email
+        binding.txtEmail.text = userData!!.email
 
-        view.btn_enter_otp.setOnClickListener {
-            view.layout_recovery_success.visibility = View.GONE
-            view.layout_validate_pass_code.visibility = View.VISIBLE
+        binding.btnEnterOtp.setOnClickListener {
+            binding.layoutRecoverySuccess.visibility = View.GONE
+            binding.layoutValidatePassCode.visibility = View.VISIBLE
         }
 
-        view.btn_validate.setOnClickListener {
+        binding.btnValidate.setOnClickListener {
             if(otpString!!.length == 4)
             {
                 if (otpString == userData!!.otp)
@@ -56,7 +68,7 @@ class ValidateOTPFragment : BaseFragment() {
             }
         }
 
-        view.txt_resend.setOnClickListener {
+        binding.txtResend.setOnClickListener {
             popBackStack()
         }
     }

@@ -24,5 +24,10 @@ class PrefKeys {
         const val PREF_Sync_Health_Patient_Id = "syncHealthPatientId"
         const val PREF_Sync_Health_Token = "syncHealthToken"
         const val PREF_Sync_Health_Profile_Info = "syncHealthProfileInfo"
+        const val PREF_Intro_screen = "introScreen"
+        const val PREF_Config_Data = "configData"
+        const val PREF_Username = "userName"
+        const val PREF_ProviderId = "providerId"
+        const val PREF_ProviderDetails = "providerDetails"
     }
 }

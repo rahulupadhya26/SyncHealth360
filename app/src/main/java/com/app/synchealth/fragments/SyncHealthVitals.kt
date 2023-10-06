@@ -2,8 +2,10 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.synchealth.R
@@ -11,13 +13,12 @@ import com.app.synchealth.adapters.VitalsAdapter
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.GetVitals
 import com.app.synchealth.data.Vitals
+import com.app.synchealth.databinding.FragmentSyncHealthVitalsBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_vitals.*
 import java.lang.Exception
 import java.lang.reflect.Type
 
@@ -36,6 +37,7 @@ class SyncHealthVitals : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     var vitals: ArrayList<Vitals> = ArrayList()
+    private lateinit var binding: FragmentSyncHealthVitalsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,15 @@ class SyncHealthVitals : BaseFragment() {
         return R.layout.fragment_sync_health_vitals
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthVitalsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -59,7 +70,7 @@ class SyncHealthVitals : BaseFragment() {
     }
 
     private fun getVitalInfo() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -84,7 +95,7 @@ class SyncHealthVitals : BaseFragment() {
                                 vitals = ArrayList()
                                 vitals =
                                     gson.fromJson(responseBody, previousSpecialist)
-                                recyclerview_vitals.apply {
+                                binding.recyclerviewVitals.apply {
                                     layoutManager =
                                         LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
                                     adapter = VitalsAdapter(
@@ -93,7 +104,7 @@ class SyncHealthVitals : BaseFragment() {
                                     )
                                 }
                             } else {
-                                text_no_vitals_info.text =
+                                binding.textNoVitalsInfo.text =
                                     "No vital information for the logged in user."
                             }
                         } catch (e: Exception) {

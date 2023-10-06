@@ -2,30 +2,24 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.synchealth.R
 import com.app.synchealth.adapters.PrescriptionAdapter
-import com.app.synchealth.adapters.VitalsAdapter
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.GetPrescription
-import com.app.synchealth.data.GetVitals
 import com.app.synchealth.data.Prescription
-import com.app.synchealth.data.Vitals
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentPrescriptionBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
-import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_prescription.*
-import kotlinx.android.synthetic.main.fragment_sync_health_vitals.*
 import java.lang.Exception
-import java.lang.reflect.Type
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +36,7 @@ class PrescriptionFragment : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var prescription: Prescription
+    private lateinit var binding: FragmentPrescriptionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +50,15 @@ class PrescriptionFragment : BaseFragment() {
         return R.layout.fragment_prescription
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentPrescriptionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -65,7 +69,7 @@ class PrescriptionFragment : BaseFragment() {
     }
 
     private fun getPrescriptionInfo() {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -90,7 +94,7 @@ class PrescriptionFragment : BaseFragment() {
                                     gson.fromJson(responseBody, Prescription::class.java)
                                 val prescriptionList: ArrayList<Prescription> = ArrayList()
                                 prescriptionList.add(prescription)
-                                recyclerview_prescription.apply {
+                                binding.recyclerviewPrescription.apply {
                                     layoutManager =
                                         LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
                                     adapter = PrescriptionAdapter(
@@ -99,7 +103,7 @@ class PrescriptionFragment : BaseFragment() {
                                     )
                                 }
                             } else {
-                                text_no_presc_info.text =
+                                binding.textNoPrescInfo.text =
                                     "No prescription information for the logged in user."
                             }
                         } catch (e: Exception) {

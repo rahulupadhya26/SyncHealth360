@@ -1,17 +1,14 @@
-package com.app.wecare.crypto
+package com.app.synchealth.crypto
 
 import android.util.Base64
 import java.io.UnsupportedEncodingException
-import java.nio.charset.StandardCharsets
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
-import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
 

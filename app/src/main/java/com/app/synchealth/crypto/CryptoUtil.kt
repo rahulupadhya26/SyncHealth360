@@ -1,6 +1,5 @@
-package com.app.wecare.crypto
+package com.app.synchealth.crypto
 
-import com.app.synchealth.crypto.MCrypt
 import okhttp3.RequestBody
 import okio.Buffer
 import java.io.IOException

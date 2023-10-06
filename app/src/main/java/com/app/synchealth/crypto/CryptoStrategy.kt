@@ -1,4 +1,4 @@
-package com.app.wecare.crypto
+package com.app.synchealth.crypto
 
 interface CryptoStrategy {
     @Throws(Exception::class)

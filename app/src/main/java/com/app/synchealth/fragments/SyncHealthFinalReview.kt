@@ -2,8 +2,10 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,18 +14,12 @@ import com.app.synchealth.adapters.FinalReviewAdapter
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.CreateAppointment
 import com.app.synchealth.data.PaymentStatus
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthFinalReviewBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
-import com.google.gson.JsonArray
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_consult.view.*
-import kotlinx.android.synthetic.main.fragment_sync_health_dashboard.view.*
-import kotlinx.android.synthetic.main.fragment_sync_health_final_review.view.*
-import kotlinx.android.synthetic.main.fragment_sync_health_medication.*
-import kotlinx.android.synthetic.main.fragment_sync_health_medication.view.*
 import org.json.JSONObject
-import org.json.JSONStringer
 import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,6 +36,7 @@ class SyncHealthFinalReview : BaseFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentSyncHealthFinalReviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +48,15 @@ class SyncHealthFinalReview : BaseFragment() {
 
     override fun getLayout(): Int {
         return R.layout.fragment_sync_health_final_review
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthFinalReviewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,7 +87,7 @@ class SyncHealthFinalReview : BaseFragment() {
         finalReviewList.add("Medication - " + Utils.medication)
         finalReviewList.add("Allergies - " + Utils.allergies)
 
-        view.recycler_view_final_review.apply {
+        binding.recyclerViewFinalReview.apply {
             layoutManager = LinearLayoutManager(
                 mActivity!!,
                 RecyclerView.VERTICAL,
@@ -93,8 +99,8 @@ class SyncHealthFinalReview : BaseFragment() {
             )
         }
 
-        view.btn_appointment_submit.setOnClickListener {
-            if (view.checkbox_terms_conditions.isChecked) {
+        binding.btnAppointmentSubmit.setOnClickListener {
+            if (binding.checkboxTermsConditions.isChecked) {
                 callCreateAppointment()
             } else {
                 val builder = AlertDialog.Builder(mActivity!!)
@@ -132,7 +138,7 @@ class SyncHealthFinalReview : BaseFragment() {
     }
 
     private fun callCreateAppointment() {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         var communicationMode = ""
         when (Utils.selectedCommunicationMode) {
             "Phone call" -> communicationMode = "1"
@@ -215,7 +221,7 @@ class SyncHealthFinalReview : BaseFragment() {
     }
 
     private fun updatePaymentStatus() {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(

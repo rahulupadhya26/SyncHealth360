@@ -1,8 +1,11 @@
 package com.app.synchealth.data
 
+import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class TokenPostData(val id: String, val token: String)
 
@@ -63,6 +66,10 @@ data class SyncHealthLogin(
     val TLH06: String,
     val TLH07: String,
     val TLH08: String
+)
+
+data class TcCode(
+    val TLH100: String
 )
 
 data class SyncHealthAppointmentList(
@@ -144,6 +151,57 @@ data class UpdateProfileData(
     val THL122: String,
     val THL123: String,
     val p_subscriber_relationship: String
+)
+
+data class Register(
+    val TL101: String,
+    val TL1011: String,
+    val TL102: String,
+    val TL103: String,
+    val TL104: String,
+    val TL105: String,
+    val TL106: String,
+    val TL107: String,
+    val TL108: String,
+    val TL109: String,
+    val TL110: String,
+    val TL111: String,
+    val TL112: String,
+    val TL113: String,
+    val TL114: String,
+    val TL115: String,
+    val TL116: String,
+    val TL117: String,
+    val TL118: String,
+    val TL119: String,
+    val TL120: String,
+    val TL121: String,
+    val TL122: String,
+    val TL123: String,
+    val TL124: String,
+    val TL125: String,
+    val p_subscriber_relationship: String
+)
+
+data class SignInUsingAuthCode(
+    val TLH01: String,
+    val TLH03: String,
+    val TLH04: String,
+    val TLH05: String,
+    val TLH06: String,
+    val TLH07: String,
+    val TLH08: String
+)
+
+data class DoctorSignIn(
+    val TLH01: String,
+    val TLH02: String
+)
+
+data class ProviderDetails(
+    val TL101: String,
+    val TL102: String,
+    val TL103: String
 )
 
 data class PrevConsult(
@@ -587,4 +645,77 @@ data class Articles(
     val active: String,
     val last_modofied: String,
     val category: String
+)
+
+data class ConfigData(
+    val url: String,
+    val insurance_req: Boolean,
+    val payments_req: Boolean,
+    val prescription_req: Boolean,
+    val vitals_req: Boolean,
+    val allergies_req: Boolean,
+    val is_pharmacy_present: Boolean
+)
+
+data class DoctorProfileDetails(
+    val id: String,
+    val username: String,
+    val password: String,
+    val authorized: String,
+    val info: String,
+    val source: String,
+    val fname: String,
+    val mname: String,
+    val lname: String,
+    val suffix: String,
+    val federaltaxid: String,
+    val federaldrugid: String,
+    val upin: String,
+    val facility: String,
+    val facility_id: String,
+    val see_auth: String,
+    val active: String,
+    val npi: String,
+    val title: String,
+    val specialty: String,
+    val billname: String,
+    val email: String,
+    val email_direct: String,
+    val url: String,
+    val assistant: String,
+    val organization: String,
+    val valedictory: String,
+    val street: String,
+    val streetb: String,
+    val city: String,
+    val state: String,
+    val zip: String,
+    val street2: String,
+    val streetb2: String,
+    val city2: String,
+    val state2: String,
+    val zip2: String,
+    val phone: String,
+    val fax: String,
+    val phonew1: String,
+    val phonew2: String,
+    val phonecell: String,
+    val notes: String,
+    val cal_ui: String,
+    val taxonomy: String,
+    val calendar: String,
+    val abook_type: String,
+    val pwd_expiration_date: String,
+    val pwd_history1: String,
+    val pwd_history2: String,
+    val default_warehouse: String,
+    val irnpool: String,
+    val state_license_number: String,
+    val weno_prov_id: String,
+    val newcrop_user_role: String,
+    val cpoe: String,
+    val physician_type: String,
+    val main_menu_role: String,
+    val patient_menu_role: String,
+    val consultation_charge: String
 )

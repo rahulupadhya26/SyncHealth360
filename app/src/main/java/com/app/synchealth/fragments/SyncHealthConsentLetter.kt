@@ -4,18 +4,19 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.synchealth.R
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.UploadImage
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthConsentLetterBinding
 import com.app.synchealth.utils.SignatureView
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_consent_letter.*
-import kotlinx.android.synthetic.main.fragment_sync_health_consent_letter.view.*
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
@@ -34,6 +35,7 @@ class SyncHealthConsentLetter : BaseFragment(), SignatureView.OnSignedListener {
     // TODO: Rename and change types of parameters
     private var navigateFrom: String? = null
     var bSigned: Boolean = false
+    private lateinit var binding: FragmentSyncHealthConsentLetterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +48,27 @@ class SyncHealthConsentLetter : BaseFragment(), SignatureView.OnSignedListener {
         return R.layout.fragment_sync_health_consent_letter
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthConsentLetterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
         getBackButton().visibility = View.VISIBLE
         getSubTitle().visibility = View.VISIBLE
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_consent_letter)
-        view.layout_consent_letter.visibility = View.VISIBLE
-        view.layout_screenshot.visibility = View.GONE
-        txt_consent_allergies.text = "Allergies : " + Utils.allergies
-        txt_consent_symptoms.text = "Symptoms : " + Utils.selectedSymptoms
-        txt_consent_curr_med.text = "Current Medications : " + Utils.medication
-        view.txt_screenshot_close.setOnClickListener {
+        binding.layoutConsentLetter.visibility = View.VISIBLE
+        binding.layoutScreenshot.visibility = View.GONE
+        binding.txtConsentAllergies.text = "Allergies : " + Utils.allergies
+        binding.txtConsentSymptoms.text = "Symptoms : " + Utils.selectedSymptoms
+        binding.txtConsentCurrMed.text = "Current Medications : " + Utils.medication
+        binding.txtScreenshotClose.setOnClickListener {
             if (navigateFrom.equals(Utils.NAVIGATE_FROM_DASHBOARD)) {
                 popBackStack()
                 replaceFragment(
@@ -73,22 +84,22 @@ class SyncHealthConsentLetter : BaseFragment(), SignatureView.OnSignedListener {
                 )
             }
         }
-        view.signatureView.setOnSignedListener(this)
-        view.signatureView.clear()
-        view.btn_consent_letter.setOnClickListener {
+        binding.signatureView.setOnSignedListener(this)
+        binding.signatureView.clear()
+        binding.layoutConsentLetter.setOnClickListener {
             if (bSigned) {
-                val screenshot: Bitmap = takeScreenshotOfRootView(view.layout_consent_letter)
-                view.img_screenshot.setImageBitmap(screenshot)
-                view.layout_consent_letter.visibility = View.GONE
-                view.layout_screenshot.visibility = View.VISIBLE
+                val screenshot: Bitmap = takeScreenshotOfRootView(binding.layoutConsentLetter)
+                binding.imgScreenshot.setImageBitmap(screenshot)
+                binding.layoutConsentLetter.visibility = View.GONE
+                binding.layoutScreenshot.visibility = View.VISIBLE
                 uploadConsentLetter(screenshot)
             } else {
                 displayToast("Please sign the consent letter")
             }
         }
 
-        view.btn_clear.setOnClickListener {
-            view.signatureView.clear()
+        binding.btnClear.setOnClickListener {
+            binding.signatureView.clear()
         }
     }
 
@@ -99,9 +110,9 @@ class SyncHealthConsentLetter : BaseFragment(), SignatureView.OnSignedListener {
     }
 
     private fun uploadConsentLetter(bitmap: Bitmap) {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
-        txt_screenshot_close.visibility = View.GONE
-        txt_form_upload.text = "Uploading details to server"
+        var rctAes = RCTAes()
+        binding.txtScreenshotClose.visibility = View.GONE
+        binding.txtFormUpload.text = "Uploading details to server"
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -124,11 +135,11 @@ class SyncHealthConsentLetter : BaseFragment(), SignatureView.OnSignedListener {
                             var responseBody = result.string()
                             Log.d("Response Body", responseBody.drop(2))
                             if (responseBody.contains("TH200")) {
-                                txt_screenshot_close.visibility = View.VISIBLE
-                                txt_form_upload.text = "Form uploaded successfully"
+                                binding.txtScreenshotClose.visibility = View.VISIBLE
+                                binding.txtFormUpload.text = "Form uploaded successfully"
                             } else {
-                                txt_screenshot_close.visibility = View.VISIBLE
-                                txt_form_upload.text = "Failed to upload form"
+                                binding.txtScreenshotClose.visibility = View.VISIBLE
+                                binding.txtFormUpload.text = "Failed to upload form"
                             }
                         } catch (e: Exception) {
                             hideProgress()
@@ -136,8 +147,8 @@ class SyncHealthConsentLetter : BaseFragment(), SignatureView.OnSignedListener {
                         }
                     }, { error ->
                         hideProgress()
-                        txt_screenshot_close.visibility = View.VISIBLE
-                        txt_form_upload.text = "Failed to upload form"
+                        binding.txtScreenshotClose.visibility = View.VISIBLE
+                        binding.txtFormUpload.text = "Failed to upload form"
                         displayToast("Error ${error.localizedMessage}")
                     })
             )

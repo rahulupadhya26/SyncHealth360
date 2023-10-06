@@ -2,8 +2,10 @@ package com.app.synchealth.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.synchealth.R
@@ -12,16 +14,13 @@ import com.app.synchealth.controller.OnPrevSpecialistItemClickListener
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.DoctorsReq
 import com.app.synchealth.data.PrevSpecialist
+import com.app.synchealth.databinding.FragmentAuthCodeBinding
+import com.app.synchealth.databinding.FragmentSyncHealthPrevSpecialistBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.common.reflect.TypeToken
 import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_consult.*
-import kotlinx.android.synthetic.main.fragment_sync_health_consult.view.*
-import kotlinx.android.synthetic.main.fragment_sync_health_create_appoint_basic_info.*
-import kotlinx.android.synthetic.main.fragment_sync_health_prev_specialist.view.*
 import java.lang.Exception
 import java.lang.reflect.Type
 
@@ -41,6 +40,7 @@ class SyncHealthPrevSpecialist : BaseFragment(), OnPrevSpecialistItemClickListen
     private var param2: String? = null
 
     var prevSpecialist: ArrayList<PrevSpecialist> = ArrayList()
+    private lateinit var binding: FragmentSyncHealthPrevSpecialistBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,15 @@ class SyncHealthPrevSpecialist : BaseFragment(), OnPrevSpecialistItemClickListen
         return R.layout.fragment_sync_health_prev_specialist
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthPrevSpecialistBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
@@ -64,7 +73,7 @@ class SyncHealthPrevSpecialist : BaseFragment(), OnPrevSpecialistItemClickListen
     }
 
     private fun getPrevSpecialist(view: View) {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -89,7 +98,7 @@ class SyncHealthPrevSpecialist : BaseFragment(), OnPrevSpecialistItemClickListen
                                 prevSpecialist = ArrayList()
                                 prevSpecialist =
                                     gson.fromJson(responseBody, previousSpecialist);
-                                view.recycler_view_prev_specialist.apply {
+                                binding.recyclerViewPrevSpecialist.apply {
                                     layoutManager =
                                         LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
                                     adapter = PreviousSpecialistAdapter(

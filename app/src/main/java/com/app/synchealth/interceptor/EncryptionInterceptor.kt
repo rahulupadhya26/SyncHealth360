@@ -1,8 +1,8 @@
-package com.app.wecare.interceptor
+package com.app.synchealth.interceptor
 
 import android.util.Log
-import com.app.wecare.crypto.CryptoStrategy
-import com.app.wecare.crypto.CryptoUtil.requestBodyToString
+import com.app.synchealth.crypto.CryptoStrategy
+import com.app.synchealth.crypto.CryptoUtil.requestBodyToString
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody

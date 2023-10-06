@@ -3,21 +3,21 @@ package com.app.synchealth.fragments
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.appcompat.app.AlertDialog
 import com.app.synchealth.R
 import com.app.synchealth.crypto.RCTAes
 import com.app.synchealth.data.TimeSlot
+import com.app.synchealth.databinding.FragmentSyncHealthTimeSlotBinding
 import com.app.synchealth.utils.Utils
-import com.facebook.react.bridge.ReactApplicationContext
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_sync_health_time_slot.view.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,6 +37,7 @@ class SyncHealthTimeSlot : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     var selectedTimeSlot: String? = null
+    private lateinit var binding: FragmentSyncHealthTimeSlotBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,23 +51,32 @@ class SyncHealthTimeSlot : BaseFragment() {
         return R.layout.fragment_sync_health_time_slot
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSyncHealthTimeSlotBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHeader().visibility = View.GONE
         getBackButton().visibility = View.VISIBLE
         getSubTitle().visibility = View.VISIBLE
         getSubTitle().text = getString(R.string.txt_nav_menu_sync_health_schedule)
-        view.btn_available_slots_txt.setOnClickListener {
-            if (view.txt_appointment_date.text.isNotEmpty()) {
+        binding.btnAvailableSlotsTxt.setOnClickListener {
+            if (binding.txtAppointmentDate.text.isNotEmpty()) {
                 getTimeSlotList(view)
             } else {
                 displayToast("Please select date")
             }
         }
-        view.btn_time_slot.setOnClickListener {
-            if (view.txt_appointment_date.text.isNotEmpty()) {
+        binding.btnTimeSlot.setOnClickListener {
+            if (binding.txtAppointmentDate.text.isNotEmpty()) {
                 if (selectedTimeSlot != null) {
-                    Utils.aptScheduleDate = view.txt_appointment_date.text.toString()
+                    Utils.aptScheduleDate = binding.txtAppointmentDate.text.toString()
                     Utils.aptScheduleTime = selectedTimeSlot!!.split("-")[0]
                     Utils.pharmacyVal = "Apollo"
                     replaceFragment(
@@ -90,10 +100,10 @@ class SyncHealthTimeSlot : BaseFragment() {
 
                 val myFormat = "yyyy-MM-dd" // mention the format you need
                 val sdf = SimpleDateFormat(myFormat)
-                view.txt_appointment_date.text = sdf.format(cal.time)
-                view.scheduled_date_txt.text = "Scheduled date : " + sdf.format(cal.time)
+                binding.txtAppointmentDate.text = sdf.format(cal.time)
+                binding.scheduledDateTxt.text = "Scheduled date : " + sdf.format(cal.time)
             }
-        view.txt_appointment_date.setOnClickListener {
+        binding.txtAppointmentDate.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 mActivity!!, dateSetListener,
                 cal.get(Calendar.YEAR),
@@ -106,7 +116,7 @@ class SyncHealthTimeSlot : BaseFragment() {
     }
 
     fun timeSlotsSpinner(view: View, timeSlots: Array<Any>) {
-        view.layout_spinner.visibility = View.VISIBLE
+        binding.layoutSpinner.visibility = View.VISIBLE
         // access the spinner
         val spinner = view.findViewById<Spinner>(R.id.spinner_appointment_time)
         if (spinner != null) {
@@ -123,7 +133,7 @@ class SyncHealthTimeSlot : BaseFragment() {
                     v: View, position: Int, id: Long
                 ) {
                     selectedTimeSlot = timeSlots[position].toString()
-                    view.time_slot_txt.text = "Time slot selected : " + timeSlots.get(position)
+                    binding.timeSlotTxt.text = "Time slot selected : " + timeSlots.get(position)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -134,7 +144,7 @@ class SyncHealthTimeSlot : BaseFragment() {
     }
 
     private fun getTimeSlotList(view: View) {
-        val rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        val rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(
@@ -143,7 +153,7 @@ class SyncHealthTimeSlot : BaseFragment() {
                         TimeSlot(
                             rctAes.encryptString(syncHealthGetToken()),
                             rctAes.encryptString(Utils.providerType),
-                            rctAes.encryptString(view.txt_appointment_date.text.toString()),
+                            rctAes.encryptString(binding.txtAppointmentDate.text.toString()),
                             rctAes.encryptString(Utils.providerId)
                         )
                     )

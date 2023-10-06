@@ -17,11 +17,9 @@ import com.app.synchealth.R
 import com.app.synchealth.data.CancelAppointment
 import com.app.synchealth.utils.Utils
 import com.app.synchealth.crypto.RCTAes
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
-import io.agora.rtc.IRtcEngineEventHandler
-import io.agora.rtc.RtcEngine
-import io.agora.rtc.video.VideoCanvas
+import io.agora.rtc2.IRtcEngineEventHandler
+import io.agora.rtc2.RtcEngine
+import io.agora.rtc2.video.VideoCanvas
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -60,14 +58,14 @@ class AgoraVideoCall : BaseFragment() {
     private val mRtcEventHandler = object : IRtcEngineEventHandler() {
         // Listen for the remote user joining the channel to get the uid of the user.
         override fun onUserJoined(uid: Int, elapsed: Int) {
-            runOnUiThread {
+            requireActivity().runOnUiThread {
                 // Call setupRemoteVideo to set the remote video view after getting uid from the onUserJoined callback.
                 setupRemoteVideo(uid)
             }
         }
 
         override fun onUserOffline(uid: Int, reason: Int) {
-            runOnUiThread {
+            requireActivity().runOnUiThread {
                 onRemoteUserLeft(uid)
             }
         }
@@ -179,7 +177,7 @@ class AgoraVideoCall : BaseFragment() {
     }
 
     private fun completedAppointment() {
-        var rctAes = RCTAes(ReactApplicationContext(mActivity!!))
+        var rctAes = RCTAes()
         showProgress()
         runnable = Runnable {
             mCompositeDisposable.add(

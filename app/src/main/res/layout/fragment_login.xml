@@ -1,97 +1,356 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+    android:layout_gravity="center"
+    android:background="@color/colorWhite"
+    tools:context=".fragments.LoginFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:context=".fragments.LoginFragment">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/image"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/synchealthimage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent"
+                android:layout_above="@+id/txt_rights_reserved"
+                android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_edit_email"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/txt_lbl_email">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_email"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_heavy"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:textColor="@color/colorArticleDescription"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    app:cardBackgroundColor="@color/colorLightGrey"
+                    app:cardCornerRadius="5dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="@string/txt_lbl_password">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:background="@color/colorLightGrey"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_password"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewPatientLogin"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:layout_weight="0.5"
+                            app:cardBackgroundColor="@color/colorWhite"
+                            app:cardCornerRadius="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Patient Login"
+                                android:textColor="@color/colorBlack" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewDoctorLogin"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            android:layout_weight="0.5"
+                            app:cardBackgroundColor="@color/colorLightGrey"
+                            app:cardCornerRadius="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_heavy"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Doctor Login"
+                                android:textColor="@color/colorBlack" />
+                        </androidx.cardview.widget.CardView>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/layoutPatientSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_heavy"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textColor="@color/colorArticleDescription"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenir_heavy"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Login Using AuthCode"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imgInfo"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginEnd="10dp"
+                            android:padding="10dp"
+                            android:src="@android:drawable/ic_dialog_info"
+                            app:tint="@color/colorPrimary" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/editTxtAuthCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:hint="XXXXXX"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14dp"
+                        tools:ignore="HardcodedText" />
+
+                    <Button
+                        android:id="@+id/btnPatientLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_below="@+id/edit_txt_authCode"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:backgroundTint="@color/colorLightGrey"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="Login >>"
+                        android:textColor="@color/colorMaroon"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/txt_or"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="-- OR --"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnSignIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="Sign-in"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:text="Using username &amp; password"
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:text="Do not have an Account?"
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="HardcodedText" />
+
+                    <Button
+                        android:id="@+id/btnSignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:backgroundTint="@color/colorMaroon"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="Sign-Up"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16dp"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutDoctorSignIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edittext_rectangle_bg"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Doctor Sign-in"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:text="Don't have an account yet?"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/txtDoctorSignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Sign Up Here"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="Username"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/editTxtDocUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14dp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="Password"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/editTxtDocPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/edittext_rectangle_bg"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14dp"
+                        tools:ignore="HardcodedText" />
+
+                    <Button
+                        android:id="@+id/btnDocSignIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/avenir_heavy"
+                        android:text="Sign-in"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16dp"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/login_screen" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/txt_forgot_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="20dp"
-                android:autoLink="all"
-                android:fontFamily="@font/avenir_heavy"
-                android:linksClickable="false"
-                android:text="@string/txt_lbl_forgot_password"
-                android:textColor="@color/colorThemeBlue" />
-
-            <Button
-                android:id="@+id/btn_continue"
+                android:id="@+id/txt_rights_reserved"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorButtonBlue"
+                android:layout_alignParentBottom="true"
                 android:fontFamily="@font/avenir_heavy"
-                android:padding="15dp"
-                android:text="@string/txt_lbl_login"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="&#169;Synchealth360.All rights reserved"
+                android:textColor="@color/colorGray"
+                android:textSize="12dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

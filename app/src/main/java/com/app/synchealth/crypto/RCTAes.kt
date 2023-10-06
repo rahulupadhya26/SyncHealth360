@@ -1,9 +1,5 @@
 package com.app.synchealth.crypto
 
-import com.facebook.react.bridge.Promise
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
 import okhttp3.internal.and
 import org.spongycastle.crypto.digests.SHA512Digest
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator
@@ -13,7 +9,6 @@ import java.io.UnsupportedEncodingException
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.security.SecureRandom
 import java.security.spec.InvalidKeySpecException
 import java.util.*
 import javax.crypto.Cipher
@@ -24,98 +19,19 @@ import javax.crypto.spec.SecretKeySpec
 import android.util.Base64;
 
 
-class RCTAes(reactContext: ReactApplicationContext?) : ReactContextBaseJavaModule(reactContext) {
+class RCTAes {
     private var key = "SYNChealth360App2020_*&^%TYUIy2k"
-    override fun getName(): String {
-        return "RCTAes"
-    }
 
-    @ReactMethod
     fun encryptString(data: String?): String {
         return encrypt(data, sha256(key), null).toString()
     }
 
-    @ReactMethod
     fun decryptString(data: String?): String {
         return decrypt(data, sha256(key), null).toString()
     }
 
-    @ReactMethod
-    fun pbkdf2(pwd: String, salt: String, cost: Int, length: Int, promise: Promise) {
-        try {
-            val strs = pbkdf2(pwd, salt, cost, length)
-            promise.resolve(strs)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
-    }
-
-    @ReactMethod
-    fun hmac256(data: String, pwd: String, promise: Promise) {
-        try {
-            val strs = hmacX(data, pwd, HMAC_SHA_256)
-            promise.resolve(strs)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
-    }
-
-    @ReactMethod
-    fun hmac512(data: String, pwd: String, promise: Promise) {
-        try {
-            val strs = hmacX(data, pwd, HMAC_SHA_512)
-            promise.resolve(strs)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
-    }
-
-    @ReactMethod
     fun sha256(data: String): String {
         return shaX(data, "SHA-256")
-    }
-
-    @ReactMethod
-    fun sha1(data: String, promise: Promise) {
-        try {
-            val result = shaX(data, "SHA-1")
-            promise.resolve(result)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
-    }
-
-    @ReactMethod
-    fun sha512(data: String, promise: Promise) {
-        try {
-            val result = shaX(data, "SHA-512")
-            promise.resolve(result)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
-    }
-
-    @ReactMethod
-    fun randomUuid(promise: Promise) {
-        try {
-            val result: String = UUID.randomUUID().toString()
-            promise.resolve(result)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
-    }
-
-    @ReactMethod
-    fun randomKey(length: Int?, promise: Promise) {
-        try {
-            val key = ByteArray(length!!)
-            val rand = SecureRandom()
-            rand.nextBytes(key)
-            val keyHex = bytesToHex(key)
-            promise.resolve(keyHex)
-        } catch (e: Exception) {
-            promise.reject("-1", e.message)
-        }
     }
 
     @Throws(Exception::class)
@@ -191,7 +107,7 @@ class RCTAes(reactContext: ReactApplicationContext?) : ReactContextBaseJavaModul
 
         @Throws(Exception::class)
         private fun encrypt(text: String?, hexKey: String, hexIv: String?): String? {
-            if (text == null || text.length == 0) {
+            if (text == null || text.isEmpty()) {
                 return null
             }
             val key: ByteArray = Hex.decode(hexKey)
@@ -208,7 +124,7 @@ class RCTAes(reactContext: ReactApplicationContext?) : ReactContextBaseJavaModul
 
         @Throws(Exception::class)
         private fun decrypt(ciphertext: String?, hexKey: String, hexIv: String?): String? {
-            if (ciphertext == null || ciphertext.length == 0) {
+            if (ciphertext == null || ciphertext.isEmpty()) {
                 return null
             }
             val key: ByteArray = Hex.decode(hexKey)

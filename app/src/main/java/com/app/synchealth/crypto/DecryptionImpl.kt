@@ -1,4 +1,4 @@
-package com.app.wecare.crypto
+package com.app.synchealth.crypto
 
 class DecryptionImpl : CryptoStrategy {
     override fun encrypt(body: String?): String? {

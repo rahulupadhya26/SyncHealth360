@@ -16,7 +16,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="10dp"
-            android:src="@drawable/rximage" />
+            android:src="@drawable/rximage"
+            android:visibility="invisible"/>
 
         <TextView
             android:layout_width="match_parent"

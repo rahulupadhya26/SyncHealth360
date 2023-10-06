@@ -1,14 +1,12 @@
 package com.app.synchealth.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.app.synchealth.R
 import com.app.synchealth.data.PrevConsultData
-import kotlinx.android.synthetic.main.layout_item_prev_consult.view.*
+import com.app.synchealth.databinding.LayoutItemPrevConsultBinding
 import java.util.ArrayList
 
 class PreviousConsultationAdapter(
@@ -20,31 +18,35 @@ class PreviousConsultationAdapter(
         parent: ViewGroup,
         viewType: Int
     ): PreviousConsultationAdapter.ViewHolder {
-        val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_item_prev_consult, parent, false)
-        return ViewHolder(v)
+        val binding = LayoutItemPrevConsultBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(holder: PreviousConsultationAdapter.ViewHolder, position: Int) {
-        val item = list[position]
-        holder.doctorName.text = "Dr. " + item!!.fname + " " + item!!.lname
-        holder.physicianType.text = item!!.physician_type
-        holder.address.text =
-            item!!.located_street + "," + item!!.located_city + "," + item!!.located_state + "," + item!!.located_zipcode + "," + item!!.located_country
-        holder.apptDate.text = "Date : " + item!!.pc_eventDate
-        holder.apptTime.text = "Time : " + item!!.pc_startTime
-
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.apply {
+            val item = list[position]
+            txtPrevConsultDoctorName.text = "Dr. " + item!!.fname + " " + item.lname
+            txtPrevConsultDoctorTitle.text = item.physician_type
+            txtPrevConsultDoctorAddress.text =
+                item.located_street + "," +
+                        item.located_city + "," +
+                        item.located_state + "," +
+                        item.located_zipcode + "," +
+                        item.located_country
+            txtPrevConsultDate.text = "Date : " + item.pc_eventDate
+            txtPrevConsultTime.text = "Time : " + item.pc_startTime
+        }
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val doctorName: TextView = itemView.txt_prev_consult_doctor_name
-        val physicianType: TextView = itemView.txt_prev_consult_doctor_title
-        val address: TextView = itemView.txt_prev_consult_doctor_address
-        val apptDate: TextView = itemView.txt_prev_consult_date
-        val apptTime: TextView = itemView.txt_prev_consult_time
-    }
+    inner class ViewHolder(val binding: LayoutItemPrevConsultBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }
